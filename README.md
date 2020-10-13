@@ -2,12 +2,12 @@
 
 ---
 
-## Dependencies (not installed yet)
+## Dependencies
 
-- React Router
-- Material or Bootstrap
-- Firebase
-- Heroku?
+- react-router-dom
+- firebase
+- react-firebase-hooks
+- dotenv
 
 ---
 
