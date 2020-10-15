@@ -1,6 +1,8 @@
 import React, { Fragment, useState } from 'react';
-import { Button, FormControlLabel, FormLabel, Grid, Paper, Radio, RadioGroup, TextField, Typography } from '@material-ui/core'
+import { Button, FormControlLabel, FormLabel, Grid, Radio, RadioGroup, TextField, Typography } from '@material-ui/core'
 import Header from './Header';
+
+let { bmiImperial, bmiMetric, result } = require('./bmicalculatorlogic.js');
 
 const BMICalculator = () => {
   /**
@@ -57,7 +59,7 @@ const BMICalculator = () => {
   return (
     <Fragment>
       <Header title="BMI Calculator"/>
-      <Paper>
+      <br/>
         <form noValidate autoComplete="off">
           <Grid container direction="column" justify="center" alignItems="center" spacing={3}>
             <Grid item>
@@ -81,7 +83,6 @@ const BMICalculator = () => {
             </Grid>
           </Grid>
         </form>
-      </Paper>
     </Fragment>
     );
 };
