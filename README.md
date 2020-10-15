@@ -8,6 +8,8 @@
 - firebase
 - react-firebase-hooks
 - dotenv
+- material-ui
+  - core
 
 ---
 
