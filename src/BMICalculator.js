@@ -1,8 +1,8 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { Button, FormControlLabel, FormLabel, Grid, Radio, RadioGroup, TextField, Typography } from '@material-ui/core'
 import Header from './Header';
 
-let { bmiImperial, bmiMetric, result } = require('./bmicalculatorlogic.js');
+let { bmiImperial, bmiMetric, bmiResult } = require('./bmicalculatorlogic.js');
 
 const BMICalculator = () => {
   /**
@@ -17,6 +17,8 @@ const BMICalculator = () => {
   const [bmi, setBMI] = useState(0);
   const [weight, setWeight] = useState(0);
   const [height, setHeight] = useState(0);
+  const [result, setResult] = useState("None yet!");
+  const [advice, setAdvice] = useState("None yet!");
 
   // Handles the change event for our unit radio buttons
   const radioChange = (event) => {
@@ -38,6 +40,13 @@ const BMICalculator = () => {
       setBMI(unit === 0 ? bmiMetric(height, weight) : bmiImperial(height, weight));
     }
   };
+  
+  // updates the bmi advice upon a state change of the bmi
+  useEffect(() => {
+    let [bRes, bAdv] = bmiResult(bmi);
+    setResult(bRes);
+    setAdvice(bAdv);
+  }, [bmi]);
   
   /**
    * This looks scary, I promise it isn't.
@@ -73,6 +82,12 @@ const BMICalculator = () => {
             </Grid>
             <Grid item>
               <Typography>Your BMI is: {bmi}</Typography>
+            </Grid>
+            <Grid item>
+              <Typography>Your BMI status is: {result}</Typography>
+            </Grid>
+            <Grid item>
+              <Typography>Advice based on your BMI: {advice}</Typography>
             </Grid>
           </Grid>
         </form>
