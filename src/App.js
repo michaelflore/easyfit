@@ -1,6 +1,6 @@
 import React from 'react';
-import './App.css';
 import firebase from 'firebase/app';
+import BMICalculator from './BMICalculator';
 
 const App = () => {
   // load in environment variables
@@ -19,12 +19,8 @@ const App = () => {
   });
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <h1>Hello world!</h1>
-      </header>
-    </div>
-  );
+    <BMICalculator/>
+    );
 }
 
 export default App;
