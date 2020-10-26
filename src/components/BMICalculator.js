@@ -61,7 +61,6 @@ const BMICalculator = () => {
     return (
         <Fragment>
             <Header title="BMI Calculator"/>
-            <br/>
             <form noValidate autoComplete="off">
                 <Grid container direction="column" justify="center" alignItems="center" spacing={3}>
                     <Grid item>
