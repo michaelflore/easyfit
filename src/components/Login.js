@@ -1,7 +1,8 @@
-import React, { useRef } from "react";
-import { FormGroup, FormLabel, FormControl, Card, InputLabel, Input, Button } from "@material-ui/core";
+import React, { useRef, Fragment } from "react";
+import { Card, Button, Typography, TextField, Grid } from "@material-ui/core";
 import { Link, useHistory } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
+import Header from './Header';
 
 const Login = () => {
     const emailRef = useRef();
@@ -20,21 +21,32 @@ const Login = () => {
     }
 
     return (
-        <React.Fragment>
+        <Fragment>
+            <Header title='User Login'/>
             <Card>
-                <h1>Login</h1>
                 <form onSubmit={handleSubmit}>
-                    <input type="email" ref={emailRef}/>
-                    <input type="password" ref={passwordRef}/>
-                    <Button type="submit">
-                        Login
-                    </Button>
+                <Grid container direction='column' justify='center' alignItems='center' spacing={3}>
+                    <Grid item>
+                        <Typography variant='h3'>Log In</Typography>
+                    </Grid>
+                    <Grid item>
+                        <TextField id='email' inputRef={emailRef} label='Email' variant='outlined' type='email'/>
+                    </Grid>
+                    <Grid item>
+                        <TextField id='password' inputRef={passwordRef} label='Password' variant='outlined' type='password'/>
+                    </Grid>
+                    <Grid item>
+                        <Button type="submit" variant='contained' color='primary'>
+                            Login
+                        </Button>
+                    </Grid>
+                </Grid>
                 </form>
-                <div>
+                <Fragment>
                     Don't have an account? <Link to="/signup">Sign Up</Link>
-                </div>
+                </Fragment>
             </Card>
-        </React.Fragment>
+        </Fragment>
     );
 };
 

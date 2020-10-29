@@ -1,7 +1,8 @@
-import React, { useRef } from "react";
-import { FormGroup, FormLabel, FormControl, Card, InputLabel, Input, Button } from "@material-ui/core";
-import {Link} from "react-router-dom";
-import {useAuth} from "../contexts/AuthContext";
+import React, { useRef, Fragment } from "react";
+import { Card, Button, Grid, Typography, TextField } from "@material-ui/core";
+import { Link } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
+import Header from './Header';
 
 const SignUp = () => {
     const emailRef = useRef();
@@ -18,21 +19,32 @@ const SignUp = () => {
     }
 
     return (
-        <React.Fragment>
-            <Card>
-                <h1>Sign Up</h1>
-                <form onSubmit={handleSubmit}>
-                    <input type="email" ref={emailRef}/>
-                    <input type="password" ref={passwordRef}/>
-                    <Button type="submit">
+        <Fragment>
+        <Header title='User Signup'/>
+        <Card>
+            <form onSubmit={handleSubmit}>
+            <Grid container direction='column' justify='center' alignItems='center' spacing={3}>
+                <Grid item>
+                    <Typography variant='h3'>Create an Account</Typography>
+                </Grid>
+                <Grid item>
+                    <TextField id='email' inputRef={emailRef} label='Email' variant='outlined' type='email'/>
+                </Grid>
+                <Grid item>
+                    <TextField id='password' inputRef={passwordRef} label='Password' variant='outlined' type='password'/>
+                </Grid>
+                <Grid item>
+                    <Button type="submit" variant='contained' color='primary'>
                         Sign Up
                     </Button>
-                </form>
-                <div>
-                    Already have an account? <Link to="/login">Login</Link>
-                </div>
-            </Card>
-        </React.Fragment>
+                </Grid>
+            </Grid>
+            </form>
+            <Fragment>
+                Already have an account? <Link to="/login">Login</Link>
+            </Fragment>
+        </Card>
+    </Fragment>
     );
 };
 

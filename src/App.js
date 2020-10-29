@@ -1,5 +1,4 @@
-import React from 'react';
-import './App.css';
+import React, { Fragment } from 'react';
 import {BrowserRouter as Router, Switch, Route} from "react-router-dom";
 import Home from "./components/Home";
 import Login from "./components/Login";
@@ -13,6 +12,7 @@ import {AuthProvider} from "./contexts/AuthContext";
 import firebase from "firebase/app";
 import "firebase/auth";
 import BMICalculator from "./components/BMICalculator";
+import { Typography } from '@material-ui/core';
 
 // load in environment variables
 require('dotenv').config();
