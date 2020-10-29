@@ -5,6 +5,7 @@ import Home from "./components/Home";
 import Login from "./components/Login";
 import SignUp from "./components/SignUp";
 import PrivateRoute from "./PrivateRoute";
+import Update from "./components/Update";
 
 import Grid from "@material-ui/core/Grid";
 import {AuthProvider} from "./contexts/AuthContext";
@@ -36,6 +37,7 @@ const App = () => {
               <Router>
                 <Switch>
                   <PrivateRoute exact path="/" component={Home} />
+                  <PrivateRoute path="/update-profile" component={Update} />
                   <Route path="/signup" component={SignUp} />
                   <Route path="/login" component={Login} />
                   <Route path="/bmi" component={BMICalculator} />
