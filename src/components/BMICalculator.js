@@ -1,7 +1,7 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { Button, FormControlLabel, FormLabel, Grid, Radio, RadioGroup, TextField, Typography } from '@material-ui/core'
 import Header from './Header';
-
+import NavBar from "./NavBar";
 let { bmiImperial, bmiMetric, bmiResult } = require('../logic/bmicalculatorlogic.js');
 
 const BMICalculator = () => {
@@ -60,7 +60,8 @@ const BMICalculator = () => {
      */
     return (
         <Fragment>
-            <Header title="BMI Calculator"/>
+            <Header title="BMI Calculator" />
+            <NavBar />
             <form noValidate autoComplete="off">
                 <Grid container direction="column" justify="center" alignItems="center" spacing={3}>
                     <Grid item>

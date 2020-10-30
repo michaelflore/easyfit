@@ -12,7 +12,6 @@ import {AuthProvider} from "./contexts/AuthContext";
 import firebase from "firebase/app";
 import "firebase/auth";
 import BMICalculator from "./components/BMICalculator";
-import { Typography } from '@material-ui/core';
 
 // load in environment variables
 require('dotenv').config();
@@ -38,9 +37,9 @@ const App = () => {
                 <Switch>
                   <PrivateRoute exact path="/" component={Home} />
                   <PrivateRoute path="/update-profile" component={Update} />
+                  <PrivateRoute path="/bmi" component={BMICalculator} />
                   <Route path="/signup" component={SignUp} />
                   <Route path="/login" component={Login} />
-                  <Route path="/bmi" component={BMICalculator} />
                 </Switch>
               </Router>
             </Grid>
