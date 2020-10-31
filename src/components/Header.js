@@ -38,8 +38,7 @@ const Header = (props) => {
             <Fragment>
                 <AppBar position="fixed" color="primary" className={styles.appBar}>
                     <Toolbar>
-                        <Typography align="center">{barTitle}</Typography>
-                        <p>Email: {currentUser.email} </p>
+                        <Typography align="center">{`${barTitle}\tLogged in As: ${currentUser.email}`}</Typography>
                         <Link to="/update-profile">
                             Update Profile
                         </Link>

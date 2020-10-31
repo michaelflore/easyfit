@@ -4,12 +4,14 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import { Drawer } from "@material-ui/core";
+import theme from "./AppTheme";
+
+
 
 const NavBar = () => {
 
     return (
-        <div style={{ display: 'flex' }}>
-            <Drawer variant="persistent" anchor="left" open={true} >
+            <Drawer variant="permanent" anchor="left" open={true}>
                     <List>
                         <Link to="/">
                             <ListItem button>
@@ -23,7 +25,6 @@ const NavBar = () => {
                         </Link>
                     </List>
             </Drawer>
-        </div>
     );
 };
 
