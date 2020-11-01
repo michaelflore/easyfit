@@ -1,15 +1,27 @@
 import React, { useRef, Fragment } from "react";
-import { Card, Button, Typography, TextField, Grid } from "@material-ui/core";
+import { Card, Button, Typography, TextField, Grid, makeStyles } from "@material-ui/core";
 import { Link, Redirect, useHistory } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import Header from './Header';
 import firebase from 'firebase/app';
+
+const useStyles = makeStyles(theme => ({
+    updateText: {
+        backgroundColor: 'lightgray',
+        borderRadius: '5px',
+        textAlign: 'center',
+        margin: '15px',
+        color: 'black',
+        padding: '0px 5px 0px 5px'
+    }
+}));
 
 const Login = () => {
     const emailRef = useRef();
     const passwordRef = useRef();
     const { login } = useAuth();
     const history = useHistory();
+    const styles = useStyles();
 
     async function handleSubmit(e) {
         e.preventDefault();
@@ -46,9 +58,7 @@ const Login = () => {
                     </Grid>
                 </Grid>
                 </form>
-                <Fragment>
-                    Don't have an account? <Link to="/signup">Sign Up</Link>
-                </Fragment>
+                <Typography className={styles.updateText}>Don't have an account? <Link to="/signup">Sign Up</Link></Typography>
             </Card>
         </Fragment>
     );

@@ -1,10 +1,21 @@
 import React, { useRef, Fragment, useState } from "react";
-import { Card, Button, Grid, Typography, TextField } from "@material-ui/core";
+import { Card, Button, Grid, Typography, TextField, makeStyles } from "@material-ui/core";
 import { Link, Redirect } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import Header from './Header';
 import firebase from "firebase/app";
 import 'firebase/firestore';
+
+const useStyles = makeStyles(theme => ({
+    updateText: {
+        backgroundColor: 'lightgray',
+        borderRadius: '5px',
+        textAlign: 'center',
+        margin: '15px',
+        color: 'black',
+        padding: '0px 5px 0px 5px'
+    }
+}));
 
 const SignUp = () => {
 
@@ -13,6 +24,7 @@ const SignUp = () => {
     const emailRef = useRef();
     const passwordRef = useRef();
     const { signup } = useAuth();
+    const styles = useStyles();
 
     let [submitted, setSubmitted] = useState(false);
 
@@ -69,10 +81,10 @@ const SignUp = () => {
                     <TextField id='lname' label='Last Name' variant='outlined'/>
                 </Grid>
                 <Grid item>
-                    <TextField id='height' label='Height' variant='outlined'/>
+                    <TextField id='height' label='Height (in)' variant='outlined'/>
                 </Grid>
                 <Grid item>
-                    <TextField id='weight' label='Weight' variant='outlined'/>
+                    <TextField id='weight' label='Weight (lbs)' variant='outlined'/>
                 </Grid>
                 <Grid item>
                     <TextField id='age' label='Age' variant='outlined'/>
@@ -84,9 +96,7 @@ const SignUp = () => {
                 </Grid>
             </Grid>
             </form>
-            <Fragment>
-                Already have an account? <Link to="/login">Login</Link>
-            </Fragment>
+            <Typography className={styles.updateText}>Already have an account? <Link to="/login">Login</Link></Typography>
         </Card>
     </Fragment>
     );

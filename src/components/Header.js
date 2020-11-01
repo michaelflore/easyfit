@@ -9,6 +9,14 @@ const useStyles = makeStyles(theme => ({
     appBar: {
         // Make the app bar z-index always one more than the drawer z-index
         zIndex: theme.zIndex.drawer + 1,
+    },
+    updateText: {
+        marginRight: '10px',
+        marginLeft: '5px',
+        paddingLeft: '5px',
+        paddingRight: '5px',
+        backgroundColor: 'lightgray',
+        borderRadius: '5px'
     }
 }));
 
@@ -38,11 +46,11 @@ const Header = (props) => {
             <Fragment>
                 <AppBar position="fixed" color="primary" className={styles.appBar}>
                     <Toolbar>
-                        <Typography align="center">{`${barTitle}\tLogged in As: ${currentUser.email}`}</Typography>
+                        <Typography align="center">{`${barTitle} | Logged in As: ${currentUser.email} |`}</Typography>
                         <Link to="/update-profile">
-                            Update Profile
+                            <Typography className={styles.updateText}>Update Profile</Typography>
                         </Link>
-                        <Button onClick={handleLogout}>Log Out</Button>
+                        <Button onClick={handleLogout} variant='contained'>Log Out</Button>
                     </Toolbar>
                 </AppBar>
                 <div className={styles.offset} />

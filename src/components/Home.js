@@ -9,7 +9,9 @@ const Home = () => {
     // initializes user data display array to pending values
     let [user, setUser] = useState(['', '', '', '', '']);
     // titles to indicate what data is being displayed
-    let titles = ['First Name', 'Last Name', 'Height (inches)', 'Weight (pounds)', 'Age'];
+    let titles = ['Name', 'Height (inches)', 'Weight (pounds)', 'Age'];
+    let uid = firebase.auth().currentUser.uid;
+    const db = firebase.firestore();
 
     /*
     * This function is where user info is acquired from the database. Some important notes are below.
@@ -17,23 +19,19 @@ const Home = () => {
     * This function MUST BE CALLED by useEffect, as functional components cannot be declared async
     */
     const fetchUserInfo = async () => {
-        let uid = firebase.auth().currentUser.uid;
-        const db = firebase.firestore();
         try {
             let query = await db.collection('users').doc(uid).get();
             let u = query.data();
-            setUser([u.fname, u.lname, u.height, u.weight, u.age]);
+            setUser([`${u.fname} ${u.lname}`, u.height, u.weight, u.age]);
         } catch(err) {
             console.log(err);
         }
     };
 
     // Call the asyncronous query ASAP and update user information.
-    // The empty array at the end means that this effect will be used as soon as the page loads, and is not
-    // reliant on the state change of any data.
     useEffect(() => {
         fetchUserInfo();
-    }, []);
+    });
 
     // The map function below essentially converts every element in titles into a grid item.
     // This is another reason I love react hooks. The page will update as soon as our user info query is done,

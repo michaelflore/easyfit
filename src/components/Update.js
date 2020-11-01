@@ -2,9 +2,20 @@ import React, {Fragment, useRef, useState} from "react"
 import { useAuth } from "../contexts/AuthContext"
 import { Link, useHistory } from "react-router-dom"
 import Button from "@material-ui/core/Button";
-import {Card, Grid, TextField, Typography} from "@material-ui/core";
+import {Card, Grid, makeStyles, TextField, Typography} from "@material-ui/core";
 import firebase from "firebase/app";
 import 'firebase/firestore';
+import Header from "./Header";
+import NavBar from "./NavBar";
+
+const useStyles = makeStyles(theme => ({
+    updateText: {
+        backgroundColor: 'lightgray',
+        borderRadius: '5px',
+        textAlign: 'center',
+        marginTop: '15px'
+    }
+}));
 
 export default function Update() {
     const emailRef = useRef();
@@ -18,6 +29,7 @@ export default function Update() {
     const db = firebase.firestore();
     var id = user.uid;
 
+    const styles = useStyles();
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -60,12 +72,11 @@ export default function Update() {
     
     return (
         <Fragment>
+            <Header title='Update Profile'/>
+            <NavBar/>
                 <Card>
                     <form onSubmit={handleSubmit}>
                         <Grid container direction='column' justify='center' alignItems='center' spacing={3}>
-                            <Grid item>
-                                <Typography variant='h3'>Update Profile</Typography>
-                            </Grid>
                             <Grid item>
                                 <TextField id='email' inputRef={emailRef} label='New Email' variant='outlined' type='email'/>
                             </Grid>
@@ -85,7 +96,9 @@ export default function Update() {
                             </Grid>
                         </Grid>
                     </form>
-                    <Link to="/">Cancel</Link>
+                    <Link to="/">
+                        <Typography className={styles.updateText}>Cancel</Typography>
+                    </Link>
                 </Card>
         </Fragment>
     )
