@@ -1,8 +1,9 @@
 import React, { useRef, Fragment } from "react";
 import { Card, Button, Typography, TextField, Grid } from "@material-ui/core";
-import { Link, useHistory } from "react-router-dom";
+import { Link, Redirect, useHistory } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import Header from './Header';
+import firebase from 'firebase/app';
 
 const Login = () => {
     const emailRef = useRef();
@@ -20,7 +21,10 @@ const Login = () => {
         }
     }
 
+    const loggedIn = firebase.auth().currentUser;
+
     return (
+        loggedIn ? <Redirect to='/'/> :
         <Fragment>
             <Header title='User Login'/>
             <Card>

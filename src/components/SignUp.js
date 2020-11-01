@@ -1,6 +1,6 @@
-import React, { useRef, Fragment } from "react";
+import React, { useRef, Fragment, useState } from "react";
 import { Card, Button, Grid, Typography, TextField } from "@material-ui/core";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import Header from './Header';
 import firebase from "firebase/app";
@@ -13,6 +13,8 @@ const SignUp = () => {
     const emailRef = useRef();
     const passwordRef = useRef();
     const { signup } = useAuth();
+
+    let [submitted, setSubmitted] = useState(false);
 
     async function handleSubmit(e) {
         e.preventDefault();
@@ -37,7 +39,7 @@ const SignUp = () => {
               height: height,
               weight: weight,
               age: age
-            })
+            }).then(setSubmitted(true));
 
         } catch {
             alert('Failed, make sure password is strong.');
@@ -45,6 +47,7 @@ const SignUp = () => {
     }
 
     return (
+        submitted ? <Redirect to='/login'/> :
         <Fragment>
         <Header title='User Signup'/>
         <Card>
