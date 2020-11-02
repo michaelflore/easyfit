@@ -9,7 +9,7 @@ const Home = () => {
     // initializes user data display array to pending values
     let [user, setUser] = useState(['', '', '', '', '']);
     // titles to indicate what data is being displayed
-    let titles = ['Name', 'Height (inches)', 'Weight (pounds)', 'Age'];
+    let titles = ['Name', 'Height (in)', 'Weight (lbs)', 'Age', 'Weight Goal (lbs)'];
     let uid = firebase.auth().currentUser.uid;
     const db = firebase.firestore();
 
@@ -22,7 +22,7 @@ const Home = () => {
         try {
             let query = await db.collection('users').doc(uid).get();
             let u = query.data();
-            setUser([`${u.fname} ${u.lname}`, u.height, u.weight, u.age]);
+            setUser([`${u.fname} ${u.lname}`, u.height, u.weight, u.age, u.goal]);
         } catch(err) {
             console.log(err);
         }

@@ -1,6 +1,6 @@
 import React, {Fragment, useRef, useState} from "react"
 import { useAuth } from "../contexts/AuthContext"
-import { Link, useHistory } from "react-router-dom"
+import { Link, Redirect, useHistory } from "react-router-dom"
 import Button from "@material-ui/core/Button";
 import {Card, Grid, makeStyles, TextField, Typography} from "@material-ui/core";
 import firebase from "firebase/app";
@@ -23,6 +23,7 @@ export default function Update() {
     const { currentUser, updatePassword, updateEmail } = useAuth();
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
+    const [updated, setUpdated] = useState(false);
     const history = useHistory();
 
     var user = firebase.auth().currentUser;
@@ -35,6 +36,8 @@ export default function Update() {
         e.preventDefault();
         const fname = document.querySelector("#fname").value;
         const lname = document.querySelector("#lname").value;
+        const age = document.querySelector("#age").value;
+        const goal = document.querySelector("#goal").value;
         const promises = [];
         setLoading(true);
         setError("");
@@ -58,6 +61,18 @@ export default function Update() {
           });
         }
 
+        if(age){
+            db.collection("users").doc(id).update({
+              age:age
+            });
+          }
+
+        if(goal){
+            db.collection("users").doc(id).update({
+              goal:goal
+            });
+          }
+
         Promise.all(promises)
             .then(() => {
                 history.push("/")
@@ -67,10 +82,13 @@ export default function Update() {
             })
             .finally(() => {
                 setLoading(false)
+                alert('account updated!');
+                setUpdated(true);
             })
     }
     
     return (
+        updated ? <Redirect to='/'/> :
         <Fragment>
             <Header title='Update Profile'/>
             <NavBar/>
@@ -88,6 +106,12 @@ export default function Update() {
                             </Grid>
                             <Grid item>
                                 <TextField id='lname' label='Last Name' variant='outlined'/>
+                            </Grid>
+                            <Grid item>
+                                <TextField id='age' label='Age' variant='outlined'/>
+                            </Grid>
+                            <Grid item>
+                                <TextField id='goal' label='Weight Goal (lbs)' variant='outlined'/>
                             </Grid>
                             <Grid item>
                                 <Button type="submit" variant='contained' color='primary'>

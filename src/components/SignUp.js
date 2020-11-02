@@ -32,7 +32,7 @@ const SignUp = () => {
         e.preventDefault();
 
         try {
-            //creating user with google authenication
+            //creating user with google authentication
             await signup(emailRef.current.value, passwordRef.current.value);
             //getting user info
             const fname = document.querySelector("#fname").value;
@@ -40,6 +40,7 @@ const SignUp = () => {
             const height = document.querySelector("#height").value;
             const weight = document.querySelector("#weight").value;
             const age = document.querySelector("#age").value;
+            const goal = document.querySelector('#goal').value;
 
             //getting current user
             var user = firebase.auth().currentUser;
@@ -50,7 +51,8 @@ const SignUp = () => {
               lname: lname,
               height: height,
               weight: weight,
-              age: age
+              age: age,
+              goal: goal
             }).then(setSubmitted(true));
 
         } catch {
@@ -88,6 +90,9 @@ const SignUp = () => {
                 </Grid>
                 <Grid item>
                     <TextField id='age' label='Age' variant='outlined'/>
+                </Grid>
+                <Grid item>
+                    <TextField id='goal' label='Weight Goal (lbs)' variant='outlined'/>
                 </Grid>
                 <Grid item>
                     <Button type="submit" variant='contained' color='primary'>
