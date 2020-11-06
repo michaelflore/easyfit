@@ -1,7 +1,9 @@
 import React, { Fragment, useState, useEffect } from 'react';
-import { Button, FormControlLabel, FormLabel, Grid, Radio, RadioGroup, TextField, Typography } from '@material-ui/core'
+import { Button, Card, FormControlLabel, FormLabel, Grid, Radio, RadioGroup, TextField, Typography } from '@material-ui/core'
 import Header from './Header';
 import NavBar from "./NavBar";
+import firebase from "firebase/app";
+import 'firebase/firestore';
 let { bmiImperial, bmiMetric, bmiResult } = require('../logic/bmicalculatorlogic.js');
 
 const BMICalculator = () => {
@@ -29,16 +31,22 @@ const BMICalculator = () => {
     const weightChange = (event) => setWeight(parseFloat(event.target.value));
     const heightChange = (event) => setHeight(parseFloat(event.target.value));
 
-    // BMI is calculated here and advice is given
-    const calculateBMI = (event) => {
-        // validate input, and calculate bmi
+    const validate = () => {
         if(!Number.isInteger(weight) || !Number.isInteger(height)) {
             alert("Error, use must enter a valid weight and height.");
+            return false;
         } else if(height <= 0) {
-            alert("Error, height must be a positive, non-zero number.")
+            alert("Error, height must be a positive, non-zero number.");
+            return false;
         } else {
-            setBMI(unit === 0 ? bmiMetric(height, weight) : bmiImperial(height, weight));
+            return true;
         }
+    };
+
+    // BMI is calculated here and advice is given
+    const calculateBMI = (event) => {
+        if(validate())
+            setBMI(unit === 0 ? bmiMetric(height, weight) : bmiImperial(height, weight));
     };
 
     // updates the bmi advice upon a state change of the bmi
@@ -63,6 +71,8 @@ const BMICalculator = () => {
             <Header title="BMI Calculator" />
             <NavBar />
             <form noValidate autoComplete="off">
+                <Card>
+                <br/>
                 <Grid container direction="column" justify="center" alignItems="center" spacing={3}>
                     <Grid item>
                         <TextField id="bmi-weight" label={`Enter Your Weight (${unit === 0 ? "kg" : "lbs"})`} defaultValue="0" variant="outlined" onInput={weightChange}/>
@@ -90,6 +100,8 @@ const BMICalculator = () => {
                         <Typography>Advice based on your BMI: {advice}</Typography>
                     </Grid>
                 </Grid>
+                <br/>
+                </Card>
             </form>
         </Fragment>
     );
