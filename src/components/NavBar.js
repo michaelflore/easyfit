@@ -36,6 +36,11 @@ const NavBar = () => {
                                 <ListItemText primary={"BMI Calculator"} />
                             </ListItem>
                         </Link>
+                        <Link to="/log">
+                            <ListItem button className={styles.navPane}>
+                                <ListItemText primary={"Weight Logging"} />
+                            </ListItem>
+                        </Link>
                     </List>
             </Drawer>
     );

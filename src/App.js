@@ -12,6 +12,7 @@ import {AuthProvider} from "./contexts/AuthContext";
 import firebase from "firebase/app";
 import "firebase/auth";
 import BMICalculator from "./components/BMICalculator";
+import Logging from './components/Logging';
 
 // load in environment variables
 require('dotenv').config();
@@ -38,6 +39,7 @@ const App = () => {
                   <PrivateRoute exact path="/" component={Home} />
                   <PrivateRoute path="/update-profile" component={Update} />
                   <PrivateRoute path="/bmi" component={BMICalculator} />
+                  <PrivateRoute path="/log" component={Logging} />
                   <Route path="/signup" component={SignUp} />
                   <Route path="/login" component={Login} />
                 </Switch>
