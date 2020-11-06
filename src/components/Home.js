@@ -8,6 +8,7 @@ import 'firebase/firestore';
 const Home = () => {
     // initializes user data display array to pending values
     let [user, setUser] = useState(['', '', '', '', '']);
+    let [isLoaded, setIsLoaded] = useState(false);
     // titles to indicate what data is being displayed
     let titles = ['Name', 'Height (in)', 'Weight (lbs)', 'Age', 'Weight Goal (lbs)'];
     let uid = firebase.auth().currentUser.uid;
@@ -19,12 +20,15 @@ const Home = () => {
     * This function MUST BE CALLED by useEffect, as functional components cannot be declared async
     */
     const fetchUserInfo = async () => {
-        try {
-            let query = await db.collection('users').doc(uid).get();
-            let u = query.data();
-            setUser([`${u.fname} ${u.lname}`, u.height, u.weight, u.age, u.goal]);
-        } catch(err) {
-            console.log(err);
+        if(!isLoaded) {
+            try {
+                let query = await db.collection('users').doc(uid).get();
+                let u = query.data();
+                setUser([`${u.fname} ${u.lname}`, u.height, u.weight, u.age, u.goal]);
+                setIsLoaded(true);
+            } catch(err) {
+                console.log(err);
+            }
         }
     };
 
