@@ -1,26 +1,31 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import NavBar from './NavBar';
 import Header from './Header';
-import { Card, Grid, Typography, TextField, Button } from '@material-ui/core';
+import { Card, Grid, TextField, Button } from '@material-ui/core';
 import firebase from "firebase/app";
 import 'firebase/firestore';
 
 const Logging = () => {
+    // initial state for weight and bmi
     const [weight, setWeight] = useState(0);
     const [bmi, setBMI] = useState(0);
+    // current user id
     const uid = firebase.auth().currentUser.uid;
+    // database connection
     const db = firebase.firestore();
 
-    // debug
+    // debug console logs
     useEffect(() => {
         console.log(weight);
         console.log(bmi);
     }, [weight, bmi]);
 
+    // checks if number is a float
     const isFloat = n => {
         return Number(n) === n && n % 1 !== 0;
     }
 
+    // validates weight and bmi by checking if it is either a number or a float
     const validate = () => {
         if(!(isFloat(weight) || Number.isInteger(weight)) || !(isFloat(bmi) || Number.isInteger(bmi))) {
             alert("Error, use must enter a valid weight and bmi.");
@@ -30,26 +35,28 @@ const Logging = () => {
         }
     };
 
+    // on form submit, the current data of the page is validated and then logged to the current user document
     const handleSubmit = e => {
+        // prevent auto redirect
         e.preventDefault();
         // validation
         if(validate()) {
-            let timestamp = Date.now();
-            console.log(timestamp);
-            // logging
+            // this appends a new weight log to the logs subcollection in the current user document
+            // upon completion, it alerts the user that the log was successful
             db.collection('users').doc(uid).collection('logs').add({
                 weight: weight,
                 bmi: bmi,
                 date: firebase.firestore.Timestamp.fromDate(new Date())
             })
-            .then(() => console.log('log successful!'));
+            .then(() => alert('log successful!'));
         }
         alert('end of function!');
     };
 
+    // user interface
     return (
         <Fragment>
-            <Header title='User Logging Screen'/>
+            <Header title='Weight and BMI Logging'/>
             <NavBar/>
             <form noValidate autoComplete="off" onSubmit={handleSubmit}>
                 <Card>
