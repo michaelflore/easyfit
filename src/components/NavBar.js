@@ -41,6 +41,11 @@ const NavBar = () => {
                                 <ListItemText primary={"Weight Logging"} />
                             </ListItem>
                         </Link>
+                        <Link to='/progress'>
+                            <ListItem button className={styles.navPane}>
+                                <ListItemText primary={"Progress Tracking"} />
+                            </ListItem>
+                        </Link>
                     </List>
             </Drawer>
     );
