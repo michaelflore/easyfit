@@ -3,6 +3,8 @@ import { AppBar, makeStyles, Toolbar, Typography } from '@material-ui/core';
 import {Link, useHistory} from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import {useAuth} from "../contexts/AuthContext";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
 
 const useStyles = makeStyles(theme => ({
     offset: theme.mixins.toolbar,
@@ -11,12 +13,14 @@ const useStyles = makeStyles(theme => ({
         zIndex: theme.zIndex.drawer + 1,
     },
     updateText: {
-        marginRight: '10px',
-        marginLeft: '5px',
         paddingLeft: '5px',
         paddingRight: '5px',
         backgroundColor: 'lightgray',
         borderRadius: '5px'
+    },
+    spacing: {
+        display: 'flex',
+        justifyContent: 'space-between'
     }
 }));
 
@@ -29,6 +33,16 @@ const Header = (props) => {
     const [error, setError] = useState("");
     const { currentUser, logout } = useAuth();
     const history = useHistory();
+
+    const [anchorEl, setAnchorEl] = useState(null);
+
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
 
     async function handleLogout() {
         try {
@@ -45,12 +59,26 @@ const Header = (props) => {
         return (
             <Fragment>
                 <AppBar position="fixed" color="primary" className={styles.appBar}>
-                    <Toolbar>
-                        <Typography align="center">{`${barTitle} | Logged in As: ${currentUser.email} |`}</Typography>
-                        <Link to="/update-profile">
-                            <Typography className={styles.updateText}>Update Profile</Typography>
-                        </Link>
-                        <Button onClick={handleLogout} variant='contained'>Log Out</Button>
+                    <Toolbar className={styles.spacing}>
+                        <div>
+                            <Typography align="center">{`${barTitle}`}</Typography>
+                        </div>
+                        <div style={{ display: 'flex' }}>
+                            <h3>Logged in As: {currentUser.email} </h3>
+                            <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
+                                Profile
+                            </Button>
+                            <Menu id="simple-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)}
+                                onClose={handleClose}
+                            >
+                                <MenuItem>
+                                    <Link to="/update-profile">
+                                        <Typography className={styles.updateText}>Update Profile</Typography>
+                                    </Link>
+                                </MenuItem>
+                                <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                            </Menu>
+                        </div>
                     </Toolbar>
                 </AppBar>
                 <div className={styles.offset} />
