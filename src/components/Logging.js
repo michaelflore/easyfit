@@ -1,9 +1,16 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import NavBar from './NavBar';
 import Header from './Header';
-import { Card, Grid, TextField, Button } from '@material-ui/core';
+import { Card, Grid, TextField, Button, makeStyles } from '@material-ui/core';
 import firebase from "firebase/app";
 import 'firebase/firestore';
+
+const useStyles = makeStyles(theme => ({
+    cardSpace: {
+        marginBottom: '10px',
+        padding: '10px'
+    }
+}));
 
 const Logging = () => {
     // initial state for weight and bmi
@@ -13,6 +20,7 @@ const Logging = () => {
     const uid = firebase.auth().currentUser.uid;
     // database connection
     const db = firebase.firestore();
+    const styles = useStyles();
 
     // debug console logs
     useEffect(() => {
@@ -59,8 +67,7 @@ const Logging = () => {
             <Header title='Weight and BMI Logging'/>
             <NavBar/>
             <form noValidate autoComplete="off" onSubmit={handleSubmit}>
-                <Card>
-                    <br/>
+                <Card className={styles.cardSpace}>
                     <Grid container direction="column" justify="center" alignItems="center" spacing={3}>
                         <Grid item>
                             <TextField id="weight-in" label='Enter your new weight (lbs)' defaultValue={0} variant="outlined" onInput={e => setWeight(parseFloat(e.target.value))}/>
@@ -72,7 +79,6 @@ const Logging = () => {
                             <Button type='submit' variant="contained" color="primary">Log</Button>
                         </Grid>
                     </Grid>
-                    <br/>
                 </Card>
             </form>
         </Fragment>

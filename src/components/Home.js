@@ -1,9 +1,15 @@
 import React, {Fragment, useState, useEffect} from "react";
 import NavBar from "./NavBar";
 import Header from "./Header";
-import { Card, Grid, Typography } from "@material-ui/core";
+import { Card, Grid, makeStyles, Typography } from "@material-ui/core";
 import firebase from "firebase/app";
 import 'firebase/firestore';
+
+const useStyles = makeStyles(theme => ({
+    cardSpace: {
+        padding: '10px'
+    }
+}));
 
 const Home = () => {
     // initializes user data display array to pending values
@@ -13,6 +19,7 @@ const Home = () => {
     let titles = ['Name', 'Height (in)', 'Weight (lbs)', 'Age', 'Weight Goal (lbs)'];
     let uid = firebase.auth().currentUser.uid;
     const db = firebase.firestore();
+    const styles = useStyles();
 
     /*
     * This function is where user info is acquired from the database. Some important notes are below.
@@ -44,7 +51,7 @@ const Home = () => {
         <Fragment>
             <Header title="User Dashboard"/>
             <NavBar/>
-            <Card>
+            <Card className={styles.cardSpace}>
                 <Grid container direction="column" justify="center" alignItems="center" spacing={3}>
                     {titles.map((item, i) => {
                     return <Grid item key={item}>
