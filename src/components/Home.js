@@ -42,11 +42,13 @@ const Home = () => {
             <NavBar/>
             <Card>
                 <Grid container direction="column" justify="center" alignItems="center" spacing={3}>
-                    {titles.map((item, i) => {
-                    return <Grid item key={item}>
+                    {
+                        titles.map((item, i) => {
+                            return <Grid item key={item}>
                             <Typography variant='h4'>{`${item}: ${user[i]}`}</Typography>
                            </Grid>;
-                    })}
+                        })
+                    }
                 </Grid>
             </Card>
         </Fragment>

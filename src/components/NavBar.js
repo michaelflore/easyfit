@@ -36,11 +36,6 @@ const NavBar = () => {
                                 <ListItemText primary={"BMI Calculator"} />
                             </ListItem>
                         </Link>
-                        <Link to="/dashboard">
-                            <ListItem button className={styles.navPane}>
-                                <ListItemText primary={"Admin Dashboard"} />
-                            </ListItem>
-                        </Link>
                     </List>
             </Drawer>
     );

@@ -13,6 +13,7 @@ import firebase from "firebase/app";
 import "firebase/auth";
 import BMICalculator from "./components/BMICalculator";
 import Dashboard from "./components/Dashboard";
+import Edit from "./components/Edit";
 
 // load in environment variables
 require('dotenv').config();
@@ -42,6 +43,8 @@ const App = () => {
                   <Route path="/signup" component={SignUp} />
                   <Route path="/login" component={Login} />
                   <PrivateRoute path="/dashboard" component={Dashboard} />
+                  <PrivateRoute path="/edit-user" component={Edit} />
+
                 </Switch>
               </Router>
             </Grid>

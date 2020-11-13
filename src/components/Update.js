@@ -36,6 +36,7 @@ export default function Update() {
         e.preventDefault();
         db.collection("users").doc(id).delete().then(r => console.log(r));
         deleteUser();
+        history.push("/");
     }
 
     function handleSubmit(e) {

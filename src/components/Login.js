@@ -27,7 +27,22 @@ const Login = () => {
         e.preventDefault();
         try {
             await login(emailRef.current.value, passwordRef.current.value);
-            history.push("/");
+            let uid = firebase.auth().currentUser.uid;
+            const db = firebase.firestore();
+            let query = await db.collection('users').doc(uid).get();
+            let u = query.data();
+            //inserts timestamp every time a users logs in into the DB
+            let date = new Date();
+            db.collection("users").doc(uid).collection("logs").doc(uid).set({
+                loggedin: date
+            });
+            //checking if the user is an admin
+            if(u.isAdmin === false){
+                history.push("/");
+            }
+            else{
+                history.push("/dashboard");
+            }
         } catch {
             alert('Failed to login');
         }
