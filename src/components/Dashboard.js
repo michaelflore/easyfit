@@ -1,6 +1,6 @@
 import React, {Fragment, useState, useEffect} from "react";
 import Header from "./Header";
-import { Card, Grid, Typography } from "@material-ui/core";
+import { Card, Grid } from "@material-ui/core";
 import NavBar from './NavBar';
 import firebase from "firebase";
 
@@ -17,18 +17,22 @@ import {Link} from "react-router-dom";
 const Dashboard = () => {
 
     let [users, setUsers] = useState([]);
+    const [isLoaded, setIsLoaded] = useState(false);
 
-    const titles = ['First Name', 'Last Name', 'Height (in)', 'Weight (lbs)', 'Age', 'Weight Goal (lbs)', 'Edit'];
+    const titles = ['First Name', 'Last Name', 'Height (in)', 'Weight (lbs)', 'Age', 'Weight Goal (lbs)', 'Last Login',  'Edit'];
     const db = firebase.firestore();
 
     const fetchUserInfo = async () => {
-        let data = await db.collection('users').get();
-        setUsers(data.docs.map( doc => ({ ...doc.data(), id: doc.id }) ));
+        if(!isLoaded) {
+            let data = await db.collection('users').get();
+            setUsers(data.docs.map( doc => ({ ...doc.data(), id: doc.id }) ));
+            setIsLoaded(true);
+        }
     };
 
     useEffect(() => {
        fetchUserInfo();
-    }, []);
+    });
 
     return (
         <Fragment>
@@ -60,6 +64,7 @@ const Dashboard = () => {
                                                 <TableCell align="center">{user.weight}</TableCell>
                                                 <TableCell align="center">{user.age}</TableCell>
                                                 <TableCell align="center">{user.goal}</TableCell>
+                                                <TableCell align="center">{user.loggedin.toDate().toString()}</TableCell>
                                                 <TableCell>
                                                     <Link to={{ pathname: '/edit-user', item: user }} style={{ color: 'blue' }}>
                                                         Edit User
