@@ -85,7 +85,7 @@ const Progress = () => {
                                             <Typography className={`${colorTheme} ${styles.changeIndicator}`}>{symbol}</Typography>
                                         </Grid>
                                         <Grid item>
-                                            <Typography>{`User weighed ${log.weight} lbs with a bmi of ${log.bmi} on ${log.date.toDate()}`}</Typography>
+                                            <Typography>{`You weighed ${log.weight} lbs with a BMI of ${log.bmi} on ${log.date.toDate()}`}</Typography>
                                         </Grid>
                                     </Grid>
                                 </Card>
