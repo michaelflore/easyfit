@@ -2,6 +2,8 @@ import React, { Fragment, useState, useEffect } from 'react';
 import { Button, Card, FormControlLabel, FormLabel, Grid, makeStyles, Radio, RadioGroup, TextField, Typography } from '@material-ui/core'
 import Header from './Header';
 import NavBar from "./NavBar";
+import firebase from "firebase/app";
+import 'firebase/firestore';
 let { bmiImperial, bmiMetric, bmiResult } = require('../logic/bmicalculatorlogic.js');
 
 const useStyles = makeStyles(theme => ({
@@ -28,6 +30,11 @@ const BMICalculator = () => {
     const [advice, setAdvice] = useState("None yet!");
     const styles = useStyles();
 
+    // current user id
+    const uid = firebase.auth().currentUser.uid;
+    // database connection
+    const db = firebase.firestore();
+
     // Handles the change event for our unit radio buttons
     const radioChange = (event) => {
         setUnit(Number(event.target.value));
@@ -53,6 +60,21 @@ const BMICalculator = () => {
     const calculateBMI = (event) => {
         if(validate())
             setBMI(unit === 0 ? bmiMetric(height, weight) : bmiImperial(height, weight));
+    };
+
+    // logging button
+    const logWeight = e => {
+        e.preventDefault();
+
+        if(validate()) {
+            let lw = unit === 1 ? weight : weight * 2.205;
+            db.collection('users').doc(uid).collection('logs').add({
+                weight: lw,
+                bmi: bmi,
+                date: firebase.firestore.Timestamp.fromDate(new Date())
+            })
+            .then(() => alert('log successful!'));
+        }
     };
 
     // updates the bmi advice upon a state change of the bmi
@@ -97,6 +119,9 @@ const BMICalculator = () => {
                     </Grid>
                     <Grid item>
                         <Typography>Your BMI is: {bmi}</Typography>
+                    </Grid>
+                    <Grid item>
+                        <Button variant="contained" color="primary" onClick={logWeight}>Log</Button>
                     </Grid>
                     <Grid item>
                         <Typography>Your BMI status is: {result}</Typography>
