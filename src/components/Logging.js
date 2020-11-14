@@ -22,12 +22,6 @@ const Logging = () => {
     const db = firebase.firestore();
     const styles = useStyles();
 
-    // debug console logs
-    useEffect(() => {
-        console.log(weight);
-        console.log(bmi);
-    }, [weight, bmi]);
-
     // checks if number is a float
     const isFloat = n => {
         return Number(n) === n && n % 1 !== 0;
@@ -58,7 +52,6 @@ const Logging = () => {
             })
             .then(() => alert('log successful!'));
         }
-        alert('end of function!');
     };
 
     // user interface
