@@ -40,7 +40,8 @@ const Progress = () => {
         if(!isLoaded) {
             try {
                 const snapshot = await db.collection('users').doc(uid).collection('logs').get();
-                setLogs(snapshot.docs.map(log => log.data()));
+                // sort in order of log date since firestore is weird and doesnt store stuff in order
+                setLogs(snapshot.docs.map(log => log.data()).sort((a, b) => b.date.toDate() - a.date.toDate()));
                 setIsLoaded(true);
             } catch(e) {
                 console.log(e);
