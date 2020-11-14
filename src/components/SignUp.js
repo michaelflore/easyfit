@@ -52,7 +52,9 @@ const SignUp = () => {
               height: height,
               weight: weight,
               age: age,
-              goal: goal
+              goal: goal,
+              isAdmin: false,
+              loggedin: firebase.firestore.Timestamp.fromDate(new Date())
             }).then(setSubmitted(true));
 
         } catch {
