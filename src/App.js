@@ -12,13 +12,10 @@ import {AuthProvider} from "./contexts/AuthContext";
 import firebase from "firebase/app";
 import "firebase/auth";
 import BMICalculator from "./components/BMICalculator";
-<<<<<<< HEAD
 import Logging from './components/Logging';
 import Progress from './components/Progress';
-=======
 import Dashboard from "./components/Dashboard";
 import Edit from "./components/Edit";
->>>>>>> admin
 
 // load in environment variables
 require('dotenv').config();
