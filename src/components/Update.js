@@ -1,8 +1,7 @@
 import React, {Fragment, useRef, useState} from "react"
 import { useAuth } from "../contexts/AuthContext"
 import { Link, Redirect, useHistory } from "react-router-dom"
-import Button from "@material-ui/core/Button";
-import {Card, Grid, makeStyles, TextField, Typography} from "@material-ui/core";
+import {Card, Grid, makeStyles, TextField, Typography, Button } from "@material-ui/core";
 import firebase from "firebase/app";
 import 'firebase/firestore';
 import Header from "./Header";
@@ -20,7 +19,8 @@ const useStyles = makeStyles(theme => ({
 export default function Update() {
     const emailRef = useRef();
     const passwordRef = useRef();
-    const { currentUser, updatePassword, updateEmail } = useAuth();
+    //Firebase Authentication Info and Functions
+    const { currentUser, updatePassword, updateEmail, deleteUser } = useAuth();
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
     const [updated, setUpdated] = useState(false);
@@ -31,6 +31,13 @@ export default function Update() {
     var id = user.uid;
 
     const styles = useStyles();
+
+    function deleteAccount(e) {
+        e.preventDefault();
+        db.collection("users").doc(id).delete().then(r => console.log(r));
+        deleteUser();
+        history.push("/");
+    }
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -120,6 +127,7 @@ export default function Update() {
                             </Grid>
                         </Grid>
                     </form>
+                    <Button onClick={deleteAccount}>Delete Account</Button>
                     <Link to="/">
                         <Typography className={styles.updateText}>Cancel</Typography>
                     </Link>

@@ -27,7 +27,12 @@ const Login = () => {
         e.preventDefault();
         try {
             await login(emailRef.current.value, passwordRef.current.value);
-            history.push("/");
+            let uid = firebase.auth().currentUser.uid;
+            const db = firebase.firestore();
+            //inserts timestamp every time a users logs in into the DB
+            db.collection("users").doc(uid).update({
+                loggedin: firebase.firestore.Timestamp.fromDate(new Date())
+            });
         } catch {
             alert('Failed to login');
         }

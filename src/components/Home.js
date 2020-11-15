@@ -32,6 +32,9 @@ const Home = () => {
                 let query = await db.collection('users').doc(uid).get();
                 let u = query.data();
                 setUser([`${u.fname} ${u.lname}`, u.height, u.weight, u.age, u.goal]);
+                db.collection('users').doc(uid).update({
+                    loggedin: firebase.firestore.Timestamp.fromDate(new Date())
+                });
                 setIsLoaded(true);
             } catch(err) {
                 console.log(err);
@@ -53,11 +56,13 @@ const Home = () => {
             <NavBar/>
             <Card className={styles.cardSpace}>
                 <Grid container direction="column" justify="center" alignItems="center" spacing={3}>
-                    {titles.map((item, i) => {
-                    return <Grid item key={item}>
+                    {
+                        titles.map((item, i) => {
+                            return <Grid item key={item}>
                             <Typography variant='h4'>{`${item}: ${user[i]}`}</Typography>
                            </Grid>;
-                    })}
+                        })
+                    }
                 </Grid>
             </Card>
         </Fragment>

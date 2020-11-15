@@ -31,6 +31,10 @@ export function AuthProvider({ children }) {
         return currentUser.updatePassword(password)
     }
 
+    function deleteUser() {
+        return currentUser.delete()
+    }
+
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged(user => {
             setCurrentUser(user)
@@ -45,7 +49,8 @@ export function AuthProvider({ children }) {
         signup,
         logout,
         updateEmail,
-        updatePassword
+        updatePassword,
+        deleteUser
     };
     return (
         <AuthContext.Provider value={value}>
