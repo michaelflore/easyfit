@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
-import { Drawer, makeStyles } from "@material-ui/core";
+import { Drawer, makeStyles, Typography } from "@material-ui/core";
 import firebase from "firebase/app";
 import 'firebase/firestore';
 
@@ -25,9 +25,14 @@ const NavBar = () => {
 
     const checkIsAdmin = async () => {
         if(!loaded) {
-            let u = await db.collection('users').doc(uid).get();
-            setUserIsAdmin(u.data().isAdmin);
-            setLoaded(true);
+            try {
+                let u = await db.collection('users').doc(uid).get();
+                setUserIsAdmin(u.data().isAdmin);
+                setLoaded(true);
+            } catch (e) {
+                console.log(e);
+                return <Typography>Error with loading account data. Please refresh the page.</Typography>
+            }
         }
     };
 
