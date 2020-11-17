@@ -42,7 +42,7 @@ const App = () => {
                   <PrivateRoute path="/bmi" component={BMICalculator} />
                   <Route path="/signup" component={SignUp} />
                   <Route path="/login" component={Login} />
-                  <PrivateRoute path="/dashboard" component={Dashboard} />
+                  <Route path="/dashboard" component={Dashboard} />
                   <PrivateRoute path="/edit-user" component={Edit} />
 
                 </Switch>

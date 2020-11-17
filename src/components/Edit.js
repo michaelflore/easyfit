@@ -12,7 +12,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TableSortLabel from "@material-ui/core/TableSortLabel";
-import {useHistory} from "react-router-dom";
+import {Link, useHistory} from "react-router-dom";
 
 const Edit = (props) => {
 
@@ -89,6 +89,7 @@ const Edit = (props) => {
                                 <TableCell colSpan={6} align="center">
                                     <Button onClick={onEdit}>Update</Button>
                                     <Button onClick={onDelete}>Delete</Button>
+                                    <Link to="/dashboard" style={{ color: '#000'}}>Cancel</Link>
                                 </TableCell>
                             </TableRow>
                         </TableBody>

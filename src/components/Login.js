@@ -33,8 +33,8 @@ const Login = () => {
             let u = query.data();
             //inserts timestamp every time a users logs in into the DB
             let date = new Date();
-            db.collection("users").doc(uid).collection("logs").doc(uid).set({
-                loggedin: date
+            db.collection("users").doc(uid).update({
+                loggedin: firebase.firestore.Timestamp.fromDate(date)
             });
             //checking if the user is an admin
             if(u.isAdmin === false){

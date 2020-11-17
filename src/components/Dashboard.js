@@ -16,14 +16,25 @@ import {Link} from "react-router-dom";
 const Dashboard = () => {
 
     let [users, setUsers] = useState([]);
-
-    const titles = ['First Name', 'Last Name', 'Height (in)', 'Weight (lbs)', 'Age', 'Weight Goal (lbs)', 'Edit'];
+    // let [time, setTime] = useState(Date);
+console.log(users)
+    const titles = ['First Name', 'Last Name', 'Height (in)', 'Weight (lbs)', 'Age', 'Weight Goal (lbs)', 'Activity','Edit'];
     const db = firebase.firestore();
 
     const fetchUserInfo = async () => {
         let data = await db.collection('users').get();
         setUsers(data.docs.map( doc => ({ ...doc.data(), id: doc.id }) ));
     };
+
+    // users.map((user) => {
+    //     db.collection("users").doc(user.id).collection("logs").get()
+    //         .then(function(querySnapshot) {
+    //             querySnapshot.forEach( doc => {
+    //                 let u = doc.data();
+    //                 user.loggedin = u.loggedin;
+    //             })
+    //         });
+    // });
 
     useEffect(() => {
        fetchUserInfo();
@@ -58,6 +69,7 @@ const Dashboard = () => {
                                                 <TableCell align="center">{user.weight}</TableCell>
                                                 <TableCell align="center">{user.age}</TableCell>
                                                 <TableCell align="center">{user.goal}</TableCell>
+                                                <TableCell align="center">{user.loggedin}</TableCell>
                                                 <TableCell>
                                                     <Link to={{ pathname: '/edit-user', item: user }} style={{ color: 'blue' }}>
                                                         Edit User
