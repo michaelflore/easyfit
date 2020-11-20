@@ -71,7 +71,7 @@ const NavBar = () => {
                                 <ListItemText primary={"Weight Logging"} />
                             </ListItem>
                         </Link>
-                        <Link to='/progress'>
+                        <Link to={{ pathname: '/progress', item: {uid: uid, userName: 'You'} }}>
                             <ListItem button className={styles.navPane}>
                                 <ListItemText primary={"Progress Tracking"} />
                             </ListItem>

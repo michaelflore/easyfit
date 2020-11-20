@@ -56,7 +56,8 @@ const SignUp = () => {
                 age: age,
                 goal: goal,
                 isAdmin: false,
-                loggedin: firebase.firestore.Timestamp.fromDate(new Date())
+                loggedin: firebase.firestore.Timestamp.fromDate(new Date()),
+                userid: user.uid
                 }).then(setSubmitted(true));
             }
         } catch(e) {

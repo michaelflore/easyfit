@@ -25,9 +25,9 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const Progress = () => {
+const Progress = (props) => {
     // db connections
-    const uid = firebase.auth().currentUser.uid;
+    const uid = props.location.item.uid;
     const db = firebase.firestore();
 
     // initialize state
@@ -86,7 +86,7 @@ const Progress = () => {
                                             <Typography className={`${colorTheme} ${styles.changeIndicator}`}>{symbol}</Typography>
                                         </Grid>
                                         <Grid item>
-                                            <Typography>{`You weighed ${log.weight} lbs with a BMI of ${log.bmi} on ${log.date.toDate()}`}</Typography>
+                                            <Typography>{`${props.location.item.userName} weighed ${log.weight} lbs with a BMI of ${log.bmi} on ${log.date.toDate()}`}</Typography>
                                         </Grid>
                                     </Grid>
                                 </Card>
