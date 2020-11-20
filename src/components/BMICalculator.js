@@ -1,8 +1,17 @@
 import React, { Fragment, useState, useEffect } from 'react';
-import { Button, FormControlLabel, FormLabel, Grid, Radio, RadioGroup, TextField, Typography } from '@material-ui/core'
+import { Button, Card, FormControlLabel, FormLabel, Grid, makeStyles, Radio, RadioGroup, TextField, Typography } from '@material-ui/core'
 import Header from './Header';
 import NavBar from "./NavBar";
+import firebase from "firebase/app";
+import 'firebase/firestore';
 let { bmiImperial, bmiMetric, bmiResult } = require('../logic/bmicalculatorlogic.js');
+
+const useStyles = makeStyles(theme => ({
+    cardSpace: {
+        marginBottom: '10px',
+        padding: '10px'
+    }
+}));
 
 const BMICalculator = () => {
     /**
@@ -19,6 +28,12 @@ const BMICalculator = () => {
     const [height, setHeight] = useState(0);
     const [result, setResult] = useState("None yet!");
     const [advice, setAdvice] = useState("None yet!");
+    const styles = useStyles();
+
+    // current user id
+    const uid = firebase.auth().currentUser.uid;
+    // database connection
+    const db = firebase.firestore();
 
     // Handles the change event for our unit radio buttons
     const radioChange = (event) => {
@@ -29,15 +44,36 @@ const BMICalculator = () => {
     const weightChange = (event) => setWeight(parseFloat(event.target.value));
     const heightChange = (event) => setHeight(parseFloat(event.target.value));
 
-    // BMI is calculated here and advice is given
-    const calculateBMI = (event) => {
-        // validate input, and calculate bmi
+    const validate = () => {
         if(!Number.isInteger(weight) || !Number.isInteger(height)) {
             alert("Error, use must enter a valid weight and height.");
+            return false;
         } else if(height <= 0) {
-            alert("Error, height must be a positive, non-zero number.")
+            alert("Error, height must be a positive, non-zero number.");
+            return false;
         } else {
+            return true;
+        }
+    };
+
+    // BMI is calculated here and advice is given
+    const calculateBMI = (event) => {
+        if(validate())
             setBMI(unit === 0 ? bmiMetric(height, weight) : bmiImperial(height, weight));
+    };
+
+    // logging button
+    const logWeight = e => {
+        e.preventDefault();
+
+        if(validate()) {
+            let lw = unit === 1 ? weight : weight * 2.205;
+            db.collection('users').doc(uid).collection('logs').add({
+                weight: lw,
+                bmi: bmi,
+                date: firebase.firestore.Timestamp.fromDate(new Date())
+            })
+            .then(() => alert('log successful!'));
         }
     };
 
@@ -63,6 +99,7 @@ const BMICalculator = () => {
             <Header title="BMI Calculator" />
             <NavBar />
             <form noValidate autoComplete="off">
+                <Card className={styles.cardSpace}>
                 <Grid container direction="column" justify="center" alignItems="center" spacing={3}>
                     <Grid item>
                         <TextField id="bmi-weight" label={`Enter Your Weight (${unit === 0 ? "kg" : "lbs"})`} defaultValue="0" variant="outlined" onInput={weightChange}/>
@@ -84,12 +121,16 @@ const BMICalculator = () => {
                         <Typography>Your BMI is: {bmi}</Typography>
                     </Grid>
                     <Grid item>
+                        <Button variant="contained" color="primary" onClick={logWeight}>Log</Button>
+                    </Grid>
+                    <Grid item>
                         <Typography>Your BMI status is: {result}</Typography>
                     </Grid>
                     <Grid item>
                         <Typography>Advice based on your BMI: {advice}</Typography>
                     </Grid>
                 </Grid>
+                </Card>
             </form>
         </Fragment>
     );

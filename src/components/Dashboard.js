@@ -1,6 +1,7 @@
 import React, {Fragment, useState, useEffect} from "react";
 import Header from "./Header";
-import { Card, Grid, Typography } from "@material-ui/core";
+import { Card, Grid } from "@material-ui/core";
+import NavBar from './NavBar';
 import firebase from "firebase";
 
 //Table
@@ -16,14 +17,23 @@ import {Link} from "react-router-dom";
 const Dashboard = () => {
 
     let [users, setUsers] = useState([]);
+<<<<<<< HEAD
     // let [time, setTime] = useState(Date);
 console.log(users)
     const titles = ['First Name', 'Last Name', 'Height (in)', 'Weight (lbs)', 'Age', 'Weight Goal (lbs)', 'Activity','Edit'];
+=======
+    const [isLoaded, setIsLoaded] = useState(false);
+
+    const titles = ['First Name', 'Last Name', 'Height (in)', 'Weight (lbs)', 'Age', 'Weight Goal (lbs)', 'Last Login',  'Edit'];
+>>>>>>> db7a859bb57d5048471e6aca9a231ea77e8e0871
     const db = firebase.firestore();
 
     const fetchUserInfo = async () => {
-        let data = await db.collection('users').get();
-        setUsers(data.docs.map( doc => ({ ...doc.data(), id: doc.id }) ));
+        if(!isLoaded) {
+            let data = await db.collection('users').get();
+            setUsers(data.docs.map( doc => ({ ...doc.data(), id: doc.id }) ));
+            setIsLoaded(true);
+        }
     };
 
     // users.map((user) => {
@@ -38,11 +48,12 @@ console.log(users)
 
     useEffect(() => {
        fetchUserInfo();
-    }, []);
+    });
 
     return (
         <Fragment>
             <Header title="Admin Dashboard"/>
+            <NavBar/>
             <Card>
                 <Grid container direction="column" justify="center" alignItems="center" spacing={1}>
                     <Table>
@@ -69,7 +80,11 @@ console.log(users)
                                                 <TableCell align="center">{user.weight}</TableCell>
                                                 <TableCell align="center">{user.age}</TableCell>
                                                 <TableCell align="center">{user.goal}</TableCell>
+<<<<<<< HEAD
                                                 <TableCell align="center">{user.loggedin}</TableCell>
+=======
+                                                <TableCell align="center">{user.loggedin.toDate().toString()}</TableCell>
+>>>>>>> db7a859bb57d5048471e6aca9a231ea77e8e0871
                                                 <TableCell>
                                                     <Link to={{ pathname: '/edit-user', item: user }} style={{ color: 'blue' }}>
                                                         Edit User

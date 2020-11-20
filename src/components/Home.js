@@ -1,17 +1,25 @@
 import React, {Fragment, useState, useEffect} from "react";
 import NavBar from "./NavBar";
 import Header from "./Header";
-import { Card, Grid, Typography } from "@material-ui/core";
+import { Card, Grid, makeStyles, Typography } from "@material-ui/core";
 import firebase from "firebase/app";
 import 'firebase/firestore';
+
+const useStyles = makeStyles(theme => ({
+    cardSpace: {
+        padding: '10px'
+    }
+}));
 
 const Home = () => {
     // initializes user data display array to pending values
     let [user, setUser] = useState(['', '', '', '', '']);
+    let [isLoaded, setIsLoaded] = useState(false);
     // titles to indicate what data is being displayed
     let titles = ['Name', 'Height (in)', 'Weight (lbs)', 'Age', 'Weight Goal (lbs)'];
     let uid = firebase.auth().currentUser.uid;
     const db = firebase.firestore();
+    const styles = useStyles();
 
     /*
     * This function is where user info is acquired from the database. Some important notes are below.
@@ -19,12 +27,18 @@ const Home = () => {
     * This function MUST BE CALLED by useEffect, as functional components cannot be declared async
     */
     const fetchUserInfo = async () => {
-        try {
-            let query = await db.collection('users').doc(uid).get();
-            let u = query.data();
-            setUser([`${u.fname} ${u.lname}`, u.height, u.weight, u.age, u.goal]);
-        } catch(err) {
-            console.log(err);
+        if(!isLoaded) {
+            try {
+                let query = await db.collection('users').doc(uid).get();
+                let u = query.data();
+                setUser([`${u.fname} ${u.lname}`, u.height, u.weight, u.age, u.goal]);
+                db.collection('users').doc(uid).update({
+                    loggedin: firebase.firestore.Timestamp.fromDate(new Date())
+                });
+                setIsLoaded(true);
+            } catch(err) {
+                console.log(err);
+            }
         }
     };
 
@@ -40,7 +54,7 @@ const Home = () => {
         <Fragment>
             <Header title="User Dashboard"/>
             <NavBar/>
-            <Card>
+            <Card className={styles.cardSpace}>
                 <Grid container direction="column" justify="center" alignItems="center" spacing={3}>
                     {
                         titles.map((item, i) => {

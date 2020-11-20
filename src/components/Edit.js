@@ -1,6 +1,7 @@
 import React, {Fragment, useState, useEffect} from "react";
 import Header from "./Header";
 import { Card, Grid } from "@material-ui/core";
+import NavBar from './NavBar';
 import firebase from "firebase";
 import Button from "@material-ui/core/Button";
 
@@ -62,6 +63,7 @@ const Edit = (props) => {
     return (
         <Fragment>
             <Header title="Admin Dashboard"/>
+            <NavBar/>
             <Card>
                 <Grid container direction="column" justify="center" alignItems="center" spacing={1}>
                     <Table>

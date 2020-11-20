@@ -29,20 +29,16 @@ const Login = () => {
             await login(emailRef.current.value, passwordRef.current.value);
             let uid = firebase.auth().currentUser.uid;
             const db = firebase.firestore();
-            let query = await db.collection('users').doc(uid).get();
-            let u = query.data();
             //inserts timestamp every time a users logs in into the DB
+<<<<<<< HEAD
             let date = new Date();
             db.collection("users").doc(uid).update({
                 loggedin: firebase.firestore.Timestamp.fromDate(date)
+=======
+            db.collection("users").doc(uid).update({
+                loggedin: firebase.firestore.Timestamp.fromDate(new Date())
+>>>>>>> db7a859bb57d5048471e6aca9a231ea77e8e0871
             });
-            //checking if the user is an admin
-            if(u.isAdmin === false){
-                history.push("/");
-            }
-            else{
-                history.push("/dashboard");
-            }
         } catch {
             alert('Failed to login');
         }
