@@ -30,14 +30,9 @@ const Login = () => {
             let uid = firebase.auth().currentUser.uid;
             const db = firebase.firestore();
             //inserts timestamp every time a users logs in into the DB
-<<<<<<< HEAD
-            let date = new Date();
-            db.collection("users").doc(uid).update({
-                loggedin: firebase.firestore.Timestamp.fromDate(date)
-=======
+
             db.collection("users").doc(uid).update({
                 loggedin: firebase.firestore.Timestamp.fromDate(new Date())
->>>>>>> db7a859bb57d5048471e6aca9a231ea77e8e0871
             });
         } catch {
             alert('Failed to login');
