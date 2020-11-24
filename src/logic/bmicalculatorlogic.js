@@ -7,6 +7,7 @@ console.log("your bmi is: " + bmi + " and you are in category: " + categorizeRez
 bmi = calculateBmiImperial(68, 160)
 console.log("your bmi is: " + bmi + " and you are in category: " + categorizeRezult(bmi));
 */
+import firebase from 'firebase/app';
 
 // height in meters , weight in kg
 const calculateBmiMetric = (heightMeters, weightKg) => {
@@ -33,8 +34,36 @@ const categorizeResult = (bmi) => {
     if (bmi > 30) return ["Obese", "You are extremely overweight. You need to take drastic measures now, or medical intervention will be required."];
 };
 
-module.exports = {
-    bmiImperial: calculateBmiImperial,
-    bmiMetric: calculateBmiMetric,
-    bmiResult: categorizeResult
+const validate = (f1, f2) => {
+    if(!Number.isInteger(f1) || !Number.isInteger(f2)) {
+        alert("Error, use must enter valid numbers.");
+        return false;
+    } else if(f2 <= 0) {
+        alert("Error, fields must be a positive, non-zero number.");
+        return false;
+    } else {
+        return true;
+    }
+};
+
+const logWeight = (e, weight, height, unit, bmi, db, uid) => {
+    e.preventDefault();
+
+    if(validate(weight, height)) {
+        let lw = unit === 1 ? weight : weight * 2.205;
+        db.collection('users').doc(uid).collection('logs').add({
+            weight: lw,
+            bmi: bmi,
+            date: firebase.firestore.Timestamp.fromDate(new Date())
+        })
+        .then(() => alert('log successful!'));
+    }
+};
+
+export {
+    calculateBmiImperial,
+    calculateBmiMetric,
+    categorizeResult,
+    validate,
+    logWeight
 };

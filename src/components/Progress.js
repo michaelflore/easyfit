@@ -4,6 +4,7 @@ import Header from './Header';
 import NavBar from './NavBar';
 import firebase from "firebase/app";
 import 'firebase/firestore';
+import { fetchLogs, logSettings } from '../logic/progresslogic';
 
 // styling for cards and weight progress
 const useStyles = makeStyles(theme => ({
@@ -34,7 +35,7 @@ const Progress = (props) => {
     const [isLoaded, setIsLoaded] = useState(false);
     const [logs, setLogs] = useState([]);
     const styles = useStyles();
-
+    /*
     // retrieves all weight logs from current user, then makes sure the db cannot be queried infinitely
     const fetchLogs = async () => {
         if(!isLoaded) {
@@ -48,11 +49,12 @@ const Progress = (props) => {
             }
         }
     };
+    */
 
     // fetch logs on component initialization
     useEffect(() => {
-        fetchLogs();
-    });
+        fetchLogs(db, uid, isLoaded, setIsLoaded, setLogs);
+    }, [db, uid, isLoaded]);
 
     return (
         <Fragment>
@@ -60,10 +62,13 @@ const Progress = (props) => {
             <NavBar/>
                 <Grid container direction="column" justify="center" alignItems="center" spacing={3}>
                     {logs.map((log, i) => {
+                        /*
                         // these store data based on the change from last weight log to the current one
                         let symbol = 'x';
                         let colorTheme = styles.weightNeutral;
-                        
+                        */
+                        let timestamp = log.date.toDate();
+                        /*
                         if(i !== logs.length-1) {
                             if(logs[i+1].weight > log.weight) {
                                 // weight loss
@@ -79,14 +84,16 @@ const Progress = (props) => {
                                 colorTheme = styles.weightNeutral;
                             }
                         }
+                        */
+                       let { symbol, colorTheme } = logSettings(i, logs, log, styles);
 
-                        return <Card className={styles.cardSpace}>
+                        return <Card className={styles.cardSpace} key={timestamp}>
                                     <Grid container direction="row" justify="center" alignItems="center" spacing={3}>
                                         <Grid item>
                                             <Typography className={`${colorTheme} ${styles.changeIndicator}`}>{symbol}</Typography>
                                         </Grid>
                                         <Grid item>
-                                            <Typography>{`${props.location.item.userName} weighed ${log.weight} lbs with a BMI of ${log.bmi} on ${log.date.toDate()}`}</Typography>
+                                            <Typography>{`${props.location.item.userName} weighed ${log.weight} lbs with a BMI of ${log.bmi} on ${timestamp}`}</Typography>
                                         </Grid>
                                     </Grid>
                                 </Card>
