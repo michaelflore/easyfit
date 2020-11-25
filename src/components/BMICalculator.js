@@ -4,7 +4,8 @@ import Header from './Header';
 import NavBar from "./NavBar";
 import firebase from "firebase/app";
 import 'firebase/firestore';
-import { calculateBmiImperial, calculateBmiMetric, categorizeResult, validate, logWeight } from '../logic/bmicalculatorlogic';
+import { calculateBmiImperial, calculateBmiMetric, categorizeResult } from '../logic/bmicalculatorlogic';
+import { logWeight, validate } from '../logic/logginglogic'
 
 const useStyles = makeStyles(theme => ({
     cardSpace: {
@@ -42,7 +43,11 @@ const BMICalculator = () => {
     };
 
     // logging button
-    const logWeightUI = e => logWeight(e, weight, height, unit, bmi, db, uid);
+    const logWeightUI = e => {
+        e.preventDefault();
+
+        logWeight(weight, height, unit, bmi, db, uid);
+    };
 
     // updates the bmi advice upon a state change of the bmi
     useEffect(() => {
