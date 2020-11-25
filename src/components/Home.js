@@ -17,7 +17,7 @@ const Home = () => {
     let [user, setUser] = useState(['', '', '', '', '']);
     let [isLoaded, setIsLoaded] = useState(false);
     // titles to indicate what data is being displayed
-    let titles = ['Name', 'Height (in)', 'Weight (lbs)', 'Age', 'Weight Goal (lbs)'];
+    let titles = ['Name', 'Height (in)', 'Weight (lbs)', 'Age', 'Weight Goal (lbs)', 'Gender', 'Activity Level'];
     let uid = firebase.auth().currentUser.uid;
     const db = firebase.firestore();
     const styles = useStyles();

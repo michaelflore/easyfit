@@ -18,17 +18,19 @@ const validate = (f1, f2) => {
     }
 };
 
-const logWeight = (weight, heightOrBMI, unit, bmi, db, uid) => {
-    if(validate(weight, heightOrBMI)) {
+const logWeight = (weight, heightOrBMI, unit, bmi, db, uid, alevel) => {
+    if(validate(weight, heightOrBMI) && (alevel >= 1 && alevel <= 4)) {
         let lw = unit === 1 ? weight : weight * 2.205;
         db.collection('users').doc(uid).collection('logs').add({
             weight: lw,
             bmi: bmi,
-            date: firebase.firestore.Timestamp.fromDate(new Date())
+            date: firebase.firestore.Timestamp.fromDate(new Date()),
+            activityLevel: alevel
         })
         .then(() => {
             db.collection('users').doc(uid).update({
-                weight: lw
+                weight: lw,
+                activityLevel: alevel
             })
         })
         .then(() => alert('log successful!'));

@@ -19,7 +19,7 @@ const Edit = (props) => {
 
     let [users, setUser] = useState([]);
 
-    const titles = ['First Name', 'Last Name', 'Height (in)', 'Weight (lbs)', 'Age', 'Weight Goal (lbs)'];
+    const titles = ['First Name', 'Last Name', 'Height (in)', 'Weight (lbs)', 'Age', 'Weight Goal (lbs)', 'Activity Level'];
     const db = firebase.firestore();
 
     const history = useHistory();
@@ -31,6 +31,7 @@ const Edit = (props) => {
     let [weight, setWeight] = useState(props.location.item.weight);
     let [age, setAge] = useState(props.location.item.age);
     let [goal, setGoal] = useState(props.location.item.goal);
+    let [alevel, setALevel] = useState(props.location.item.activityLevel);
 
     //Update
     const onEdit = () => {
@@ -86,6 +87,7 @@ const Edit = (props) => {
                                 <TableCell align="center"><input value={weight} onChange={e => {setWeight(e.target.value);}}/></TableCell>
                                 <TableCell align="center"><input value={age} onChange={e => {setAge(e.target.value);}}/></TableCell>
                                 <TableCell align="center"><input value={goal} onChange={e => {setGoal(e.target.value);}}/></TableCell>
+                                <TableCell align='center'><input value={alevel} onChange={e => setALevel(Number.parseInt(e.target.value))}/></TableCell>
                             </TableRow>
                             <TableRow>
                                 <TableCell colSpan={6} align="center">

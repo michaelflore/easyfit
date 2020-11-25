@@ -1,5 +1,5 @@
 import React, { useRef, Fragment, useState } from "react";
-import { Card, Button, Grid, Typography, TextField, makeStyles } from "@material-ui/core";
+import { Card, Button, Grid, Typography, TextField, makeStyles, FormLabel, RadioGroup, Radio, FormControlLabel } from "@material-ui/core";
 import { Link, Redirect } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import Header from './Header';
@@ -25,23 +25,29 @@ const SignUp = () => {
     const passwordRef = useRef();
     const { signup } = useAuth();
     const styles = useStyles();
+    const MIN_ALEVEL = 1;
+    const MAX_ALEVEL = 4;
 
     let [submitted, setSubmitted] = useState(false);
+    let [unit, setUnit] = useState(0);
 
     async function handleSubmit(e) {
         e.preventDefault();
 
         try {
             //getting user info
-            const fname = document.querySelector("#fname").value;
-            const lname = document.querySelector("#lname").value;
-            const height = document.querySelector("#height").value;
-            const weight = document.querySelector("#weight").value;
-            const age = document.querySelector("#age").value;
-            const goal = document.querySelector('#goal').value;
+            let fname = document.querySelector("#fname").value;
+            let lname = document.querySelector("#lname").value;
+            let height = document.querySelector("#height").value;
+            let weight = document.querySelector("#weight").value;
+            let age = document.querySelector("#age").value;
+            let goal = document.querySelector('#goal').value;
+            let activityLevel = document.querySelector('#activity').value; 
 
-            if(fname === '' || lname === '' || height === '' || weight === '' || age === '' || goal === '') {
+            if(fname === '' || lname === '' || height === '' || weight === '' || age === '' || goal === '' || activityLevel === '') {
                 alert('One or more fields have been left blank, please enter all values.');
+            } else if(Number.parseInt(activityLevel) < MIN_ALEVEL || Number.parseInt(activityLevel) > MAX_ALEVEL) {
+                alert(`Activity level must be in the range of ${MIN_ALEVEL.toString()}-${MAX_ALEVEL.toString()}`);
             } else {
                 //creating user with google authentication
                 await signup(emailRef.current.value, passwordRef.current.value);
@@ -57,7 +63,9 @@ const SignUp = () => {
                 goal: goal,
                 isAdmin: false,
                 loggedin: firebase.firestore.Timestamp.fromDate(new Date()),
-                userid: user.uid
+                userid: user.uid,
+                activityLevel: Number.parseInt(activityLevel),
+                gender: unit === 0 ? 'Male' : 'Female'
                 }).then(setSubmitted(true));
             }
         } catch(e) {
@@ -99,6 +107,16 @@ const SignUp = () => {
                 </Grid>
                 <Grid item>
                     <TextField id='goal' label='Weight Goal (lbs)' variant='outlined'/>
+                </Grid>
+                <Grid item>
+                    <TextField id='activity' label={`Activity Level (${MIN_ALEVEL.toString()}-${MAX_ALEVEL.toString()})`} variant='outlined'/>
+                </Grid>
+                <Grid item>
+                    <FormLabel>Select Gender</FormLabel>
+                    <RadioGroup name="units" aria-label="Select Units" value={unit} onChange={e => setUnit(Number(e.target.value))}>
+                        <FormControlLabel key="male" value={0} control={<Radio/>} label="Male"/>
+                        <FormControlLabel key="female" value={1} control={<Radio/>} label="Female"/>
+                    </RadioGroup>
                 </Grid>
                 <Grid item>
                     <Button type="submit" variant='contained' color='primary'>

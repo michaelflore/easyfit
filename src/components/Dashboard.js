@@ -13,13 +13,14 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TableSortLabel from "@material-ui/core/TableSortLabel";
 import {Link} from "react-router-dom";
+import levelLabel from '../logic/activitylevelmap';
 
 const Dashboard = () => {
 
     let [users, setUsers] = useState([]);
     const [isLoaded, setIsLoaded] = useState(false);
 
-    const titles = ['First Name', 'Last Name', 'Height (in)', 'Weight (lbs)', 'Age', 'Weight Goal (lbs)', 'Last Login',  'Edit', 'Logs'];
+    const titles = ['First Name', 'Last Name', 'Height (in)', 'Weight (lbs)', 'Age', 'Weight Goal (lbs)', 'Last Login', 'Gender', 'Activity Level', 'Edit', 'Logs'];
     const db = firebase.firestore();
 
     const fetchUserInfo = async () => {
@@ -65,6 +66,8 @@ const Dashboard = () => {
                                                 <TableCell align="center">{user.age}</TableCell>
                                                 <TableCell align="center">{user.goal}</TableCell>
                                                 <TableCell align="center">{user.loggedin.toDate().toString()}</TableCell>
+                                                <TableCell align="center">{user.gender}</TableCell>
+                                                <TableCell align="center">{levelLabel.get(user.activityLevel)}</TableCell>
                                                 <TableCell>
                                                     <Link to={{ pathname: '/edit-user', item: user }} style={{ color: 'blue' }}>
                                                         Edit User
@@ -72,7 +75,7 @@ const Dashboard = () => {
                                                 </TableCell>
                                                 <TableCell>
                                                     <Link to={{ pathname: '/progress', item: {uid: user.userid, userName: user.fname} }} style= {{ color: 'blue' }}>
-                                                        View Progress Logs
+                                                        View
                                                     </Link>
                                                 </TableCell>
                                             </TableRow>

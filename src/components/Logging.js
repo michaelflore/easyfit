@@ -17,17 +17,20 @@ const Logging = () => {
     // initial state for weight and bmi
     const [weight, setWeight] = useState(0);
     const [bmi, setBMI] = useState(0);
+    const [alevel, setALevel] = useState(-1);
     // current user id
     const uid = firebase.auth().currentUser.uid;
     // database connection
     const db = firebase.firestore();
     const styles = useStyles();
+    const MIN_ALEVEL = 1;
+    const MAX_ALEVEL = 4;
 
     // // on form submit, the current data of the page is validated and then logged to the current user document
     const handleSubmit = e => {
         // prevent auto redirect
         e.preventDefault();
-        logWeight(weight, bmi, 1, db, uid);
+        logWeight(weight, bmi, 1, bmi, db, uid, alevel);
     };
 
     // user interface
@@ -43,6 +46,9 @@ const Logging = () => {
                         </Grid>
                         <Grid item>
                             <TextField id="bmi-in" label='Enter your new BMI' defaultValue={0} variant="outlined" onInput={e => setBMI(parseFloat(e.target.value))}/>
+                        </Grid>
+                        <Grid item>
+                            <TextField id='activity' label={`Activity Level (${MIN_ALEVEL.toString()}-${MAX_ALEVEL.toString()})`} variant='outlined' onInput={e => setALevel(Number.parseInt(e.target.value))}/>
                         </Grid>
                         <Grid item>
                             <Button type='submit' variant="contained" color="primary">Log</Button>

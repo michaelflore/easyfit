@@ -29,6 +29,8 @@ const BMICalculator = () => {
     const [height, setHeight] = useState(0);
     const [result, setResult] = useState("None yet!");
     const [advice, setAdvice] = useState("None yet!");
+    const [loaded, setLoaded] = useState(false);
+    const [alevel, setAlevel] = useState(-1);
     const styles = useStyles();
 
     // current user id
@@ -45,9 +47,23 @@ const BMICalculator = () => {
     // logging button
     const logWeightUI = e => {
         e.preventDefault();
-
-        logWeight(weight, height, unit, bmi, db, uid);
+        if(loaded) {
+            logWeight(weight, height, unit, bmi, db, uid, alevel);
+        }
+        else {
+            alert('Please try logging again in a few seconds.');
+        }
     };
+
+    const fetchUserALevel = async () => {
+        let q = await db.collection('users').doc(uid).get();
+        setAlevel(q.data().activityLevel);
+        setLoaded(true);
+    };
+
+    useEffect(() => {
+        fetchUserALevel();
+    });
 
     // updates the bmi advice upon a state change of the bmi
     useEffect(() => {
