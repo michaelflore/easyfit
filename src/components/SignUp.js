@@ -32,8 +32,6 @@ const SignUp = () => {
         e.preventDefault();
 
         try {
-            //creating user with google authentication
-            await signup(emailRef.current.value, passwordRef.current.value);
             //getting user info
             const fname = document.querySelector("#fname").value;
             const lname = document.querySelector("#lname").value;
@@ -42,22 +40,28 @@ const SignUp = () => {
             const age = document.querySelector("#age").value;
             const goal = document.querySelector('#goal').value;
 
-            //getting current user
-            var user = firebase.auth().currentUser;
-
-            //inserting user data into data base
-            db.collection("users").doc(user.uid).set({
-              fname: fname,
-              lname: lname,
-              height: height,
-              weight: weight,
-              age: age,
-              goal: goal,
-              isAdmin: false,
-              loggedin: firebase.firestore.Timestamp.fromDate(new Date())
-            }).then(setSubmitted(true));
-
-        } catch {
+            if(fname === '' || lname === '' || height === '' || weight === '' || age === '' || goal === '') {
+                alert('One or more fields have been left blank, please enter all values.');
+            } else {
+                //creating user with google authentication
+                await signup(emailRef.current.value, passwordRef.current.value);
+                //getting current user
+                let user = firebase.auth().currentUser;
+                //inserting user data into data base
+                db.collection("users").doc(user.uid).set({
+                fname: fname,
+                lname: lname,
+                height: height,
+                weight: weight,
+                age: age,
+                goal: goal,
+                isAdmin: false,
+                loggedin: firebase.firestore.Timestamp.fromDate(new Date()),
+                userid: user.uid
+                }).then(setSubmitted(true));
+            }
+        } catch(e) {
+            console.log(e);
             alert('Failed, make sure password is strong.');
         }
     }

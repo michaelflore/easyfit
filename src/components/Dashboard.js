@@ -20,7 +20,7 @@ const Dashboard = () => {
 
     const [isLoaded, setIsLoaded] = useState(false);
 
-    const titles = ['First Name', 'Last Name', 'Height (in)', 'Weight (lbs)', 'Age', 'Weight Goal (lbs)', 'Last Login',  'Edit'];
+    const titles = ['First Name', 'Last Name', 'Height (in)', 'Weight (lbs)', 'Age', 'Weight Goal (lbs)', 'Last Login',  'Edit', 'Logs'];
 
     const db = firebase.firestore();
 
@@ -80,6 +80,11 @@ const Dashboard = () => {
                                                 <TableCell>
                                                     <Link to={{ pathname: '/edit-user', item: user }} style={{ color: 'blue' }}>
                                                         Edit User
+                                                    </Link>
+                                                </TableCell>
+                                                <TableCell>
+                                                    <Link to={{ pathname: '/progress', item: {uid: user.userid, userName: user.fname} }} style= {{ color: 'blue' }}>
+                                                        View Progress Logs
                                                     </Link>
                                                 </TableCell>
                                             </TableRow>
