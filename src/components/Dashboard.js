@@ -39,9 +39,8 @@ const Dashboard = () => {
         <Fragment>
             <Header title="Admin Dashboard"/>
             <NavBar/>
-            <Card>
-                <Grid container direction="column" justify="center" alignItems="center" spacing={1}>
-                    <Table>
+                <Grid container direction="column" justify="center" alignItems="center" spacing={1} md={9} style={{marginTop: '64px'}}>
+                    <Table size="small">
                         <TableHead>
                             <TableRow>
                                 {titles.map((title) => (
@@ -86,7 +85,6 @@ const Dashboard = () => {
                         </TableBody>
                     </Table>
                 </Grid>
-            </Card>
         </Fragment>
     );
 };
