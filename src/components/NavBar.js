@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
-import { Drawer, makeStyles, Typography } from "@material-ui/core";
+import {Drawer, Hidden, makeStyles, Typography} from "@material-ui/core";
 import firebase from "firebase/app";
 import 'firebase/firestore';
 
@@ -41,7 +41,10 @@ const NavBar = () => {
     });
 
     return (
-            <Drawer variant="permanent" anchor="left" open={true}>
+
+            <Drawer variant="permanent" anchor="left" open={true} className={styles.drawer} classes={{
+                paper: styles.drawerPaper,
+            }}>
                     <List>
                         {/*this tab is repeated bc the app bar cuts the tab tab off*/}
                         <Link to="/">
@@ -78,6 +81,7 @@ const NavBar = () => {
                         </Link>
                     </List>
             </Drawer>
+
     );
 };
 

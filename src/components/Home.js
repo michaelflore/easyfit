@@ -4,6 +4,7 @@ import Header from "./Header";
 import { Card, Grid, makeStyles, Typography } from "@material-ui/core";
 import firebase from "firebase/app";
 import 'firebase/firestore';
+import fetchUserInfo from '../logic/homelogic';
 
 const useStyles = makeStyles(theme => ({
     cardSpace: {
@@ -16,7 +17,7 @@ const Home = () => {
     let [user, setUser] = useState(['', '', '', '', '']);
     let [isLoaded, setIsLoaded] = useState(false);
     // titles to indicate what data is being displayed
-    let titles = ['Name', 'Height (in)', 'Weight (lbs)', 'Age', 'Weight Goal (lbs)'];
+    let titles = ['Name', 'Height (in)', 'Weight (lbs)', 'Age', 'Weight Goal (lbs)', 'Gender', 'Activity Level'];
     let uid = firebase.auth().currentUser.uid;
     const db = firebase.firestore();
     const styles = useStyles();
@@ -26,6 +27,7 @@ const Home = () => {
     * This function MUST BE INSIDE OF THE COMPONENT OR ELSE IT WILL NOT WORK
     * This function MUST BE CALLED by useEffect, as functional components cannot be declared async
     */
+   /*
     const fetchUserInfo = async () => {
         if(!isLoaded) {
             try {
@@ -41,11 +43,12 @@ const Home = () => {
             }
         }
     };
+    */
 
     // Call the asyncronous query ASAP and update user information.
     useEffect(() => {
-        fetchUserInfo();
-    });
+        fetchUserInfo(db, uid, isLoaded, setIsLoaded, setUser);
+    }, [db, uid, isLoaded]);
 
     // The map function below essentially converts every element in titles into a grid item.
     // This is another reason I love react hooks. The page will update as soon as our user info query is done,

@@ -33,8 +33,8 @@ const categorizeResult = (bmi) => {
     if (bmi > 30) return ["Obese", "You are extremely overweight. You need to take drastic measures now, or medical intervention will be required."];
 };
 
-module.exports = {
-    bmiImperial: calculateBmiImperial,
-    bmiMetric: calculateBmiMetric,
-    bmiResult: categorizeResult
+export {
+    calculateBmiImperial,
+    calculateBmiMetric,
+    categorizeResult
 };
