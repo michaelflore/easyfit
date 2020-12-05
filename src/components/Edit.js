@@ -65,7 +65,8 @@ const Edit = (props) => {
         <Fragment>
             <Header title="Admin Dashboard"/>
             <NavBar/>
-                <Grid container direction="column" justify="center" alignItems="center" spacing={1} md={9}>
+                <Grid container direction="column" justify="center" alignItems="center">
+                    <Grid item md={9}>
                     <TableContainer>
                         <Table size="small">
                             <TableHead>
@@ -99,6 +100,7 @@ const Edit = (props) => {
                             </TableBody>
                         </Table>
                     </TableContainer>
+                    </Grid>
                 </Grid>
         </Fragment>
     );

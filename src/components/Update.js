@@ -13,6 +13,9 @@ const useStyles = makeStyles(theme => ({
         borderRadius: '5px',
         textAlign: 'center',
         marginTop: '15px'
+    },
+    card: {
+        marginTop: '68px'
     }
 }));
 
@@ -37,9 +40,11 @@ export default function Update() {
 
     function deleteAccount(e) {
         e.preventDefault();
-        db.collection("users").doc(id).delete().then(r => console.log(r));
-        deleteUser();
-        history.push("/");
+        if (window.confirm('Are you sure you wish to delete your account?')) {
+            db.collection("users").doc(id).delete().then(r => console.log(r));
+            deleteUser();
+            history.push("/");
+        }
     }
 
     function handleSubmit(e) {
@@ -113,7 +118,7 @@ export default function Update() {
         <Fragment>
             <Header title='Update Profile'/>
             <NavBar/>
-                <Card>
+                <Card className={styles.card}>
                     <form onSubmit={handleSubmit}>
                         <Grid container direction='column' justify='center' alignItems='center' spacing={3}>
                             <Grid item>

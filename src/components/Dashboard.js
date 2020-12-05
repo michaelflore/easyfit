@@ -51,7 +51,7 @@ const Dashboard = () => {
         <Fragment>
             <Header title="Admin Dashboard"/>
             <NavBar/>
-                <Grid container direction="column" justify="center" alignItems="center" spacing={1} md={9} style={{marginTop: '64px', background: '#2b2b2b'}}>
+                <Grid container direction="column" justify="center" alignItems="center" md={9} style={{marginTop: '64px', background: '#2b2b2b'}}>
                     <TableContainer>
                         <Table size="small">
                             <TableHead>
