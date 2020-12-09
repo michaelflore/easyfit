@@ -1,6 +1,6 @@
 import React, {Fragment, useState, useEffect} from "react";
 import Header from "./Header";
-import { Card, Grid } from "@material-ui/core";
+import { Card, Grid, MenuItem, Select } from "@material-ui/core";
 import NavBar from './NavBar';
 import firebase from "firebase";
 import Button from "@material-ui/core/Button";
@@ -32,6 +32,7 @@ const Edit = (props) => {
     let [age, setAge] = useState(props.location.item.age);
     let [goal, setGoal] = useState(props.location.item.goal);
     let [alevel, setALevel] = useState(props.location.item.activityLevel);
+    let activityLevels = [1, 2, 3, 4];
 
     //Update
     const onEdit = () => {
@@ -60,7 +61,7 @@ const Edit = (props) => {
 
     useEffect(() => {
         fetchUserInfo();
-    }, []);
+    });
 
     return (
         <Fragment>
@@ -86,7 +87,13 @@ const Edit = (props) => {
                                 <TableCell align="center"><input value={weight} onChange={e => {setWeight(e.target.value);}}/></TableCell>
                                 <TableCell align="center"><input value={age} onChange={e => {setAge(e.target.value);}}/></TableCell>
                                 <TableCell align="center"><input value={goal} onChange={e => {setGoal(e.target.value);}}/></TableCell>
-                                <TableCell align='center'><input value={alevel} onChange={e => setALevel(Number.parseInt(e.target.value))}/></TableCell>
+                                <TableCell align='center'>
+                                    <Select onChange={e => setALevel(Number.parseInt(e.target.value))} value={alevel}>
+                                        {activityLevels.map(level => {
+                                            return <MenuItem value={level} key={level}>{level}</MenuItem>
+                                        })}
+                                    </Select>
+                                </TableCell>
                             </TableRow>
                             <TableRow>
                                 <TableCell colSpan={7} align="center">
