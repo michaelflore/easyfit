@@ -12,12 +12,6 @@ const useStyles = makeStyles(theme => ({
         // Make the app bar z-index always one more than the drawer z-index
         zIndex: theme.zIndex.drawer + 1,
     },
-    updateText: {
-        paddingLeft: '5px',
-        paddingRight: '5px',
-        backgroundColor: 'lightgray',
-        borderRadius: '5px'
-    },
     spacing: {
         display: 'flex',
         justifyContent: 'space-between'
@@ -72,9 +66,7 @@ const Header = (props) => {
                                 onClose={handleClose}
                             >
                                 <MenuItem>
-                                    <Link to="/update-profile">
-                                        <Typography className={styles.updateText}>Update Profile</Typography>
-                                    </Link>
+                                    <Link to="/update-profile" style={{ color: 'white' }}>Update Profile</Link>
                                 </MenuItem>
                                 <MenuItem onClick={handleLogout}>Logout</MenuItem>
                             </Menu>
