@@ -8,7 +8,7 @@ import fetchUserInfo from '../logic/homelogic';
 
 const useStyles = makeStyles(theme => ({
     cardSpace: {
-        padding: '10px'
+        padding: '25px'
     }
 }));
 

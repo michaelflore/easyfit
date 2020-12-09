@@ -16,7 +16,8 @@ const useStyles = makeStyles(theme => ({
         padding: '0px 5px 0px 5px'
     },
     card: {
-        marginTop: '64px'
+        marginTop: '70px',
+        padding: '25px'
     }
 }));
 

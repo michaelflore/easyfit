@@ -11,7 +11,6 @@ import TableCell from '@material-ui/core/TableCell';
 // import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import TableSortLabel from "@material-ui/core/TableSortLabel";
 import {Link} from "react-router-dom";
 import levelLabel from '../logic/activitylevelmap';
 
@@ -48,9 +47,7 @@ const Dashboard = () => {
                             <TableRow>
                                 {titles.map((title) => (
                                     <TableCell align="center" key={title}>
-                                        <TableSortLabel>
                                             {title}
-                                        </TableSortLabel>
                                     </TableCell>
                                 ))}
                             </TableRow>
@@ -59,8 +56,8 @@ const Dashboard = () => {
                             {
                                 users.map((user) => {
                                     return (
-                                        <Fragment>
-                                            <TableRow key={user.fname}>
+                                        <Fragment key={user.fname}>
+                                            <TableRow>
                                                 <TableCell align="center">{user.fname}</TableCell>
                                                 <TableCell align="center">{user.lname}</TableCell>
                                                 <TableCell align="center">{user.height}</TableCell>
@@ -71,12 +68,12 @@ const Dashboard = () => {
                                                 <TableCell align="center">{user.gender}</TableCell>
                                                 <TableCell align="center">{levelLabel.get(user.activityLevel)}</TableCell>
                                                 <TableCell>
-                                                    <Link to={{ pathname: '/edit-user', item: user }} style={{ color: 'blue' }}>
+                                                    <Link to={{ pathname: '/edit-user', item: user }} style={{ color: 'black' }}>
                                                         Edit User
                                                     </Link>
                                                 </TableCell>
                                                 <TableCell>
-                                                    <Link to={{ pathname: '/progress', item: {uid: user.userid, userName: user.fname} }} style= {{ color: 'blue' }}>
+                                                    <Link to={{ pathname: '/progress', item: {uid: user.userid, userName: user.fname} }} style= {{ color: 'black' }}>
                                                         View
                                                     </Link>
                                                 </TableCell>

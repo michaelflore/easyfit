@@ -13,6 +13,9 @@ const useStyles = makeStyles(theme => ({
         margin: '15px',
         color: 'black',
         padding: '0px 5px 0px 5px'
+    },
+    card: {
+        padding: '25px'
     }
 }));
 
@@ -45,7 +48,7 @@ const Login = () => {
         loggedIn ? <Redirect to='/'/> :
         <Fragment>
             <Header title='User Login'/>
-            <Card>
+            <Card className={styles.card}>
                 <form onSubmit={handleSubmit}>
                 <Grid container direction='column' justify='center' alignItems='center' spacing={3}>
                     <Grid item>

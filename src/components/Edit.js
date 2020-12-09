@@ -41,7 +41,8 @@ const Edit = (props) => {
             height: height,
             weight: weight,
             age: age,
-            goal: goal
+            goal: goal,
+            activityLevel: alevel
         });
         history.push("/dashboard");
     };
@@ -72,9 +73,7 @@ const Edit = (props) => {
                             <TableRow>
                                 {titles.map((title) => (
                                     <TableCell align="center" key={title}>
-                                        <TableSortLabel>
                                             {title}
-                                        </TableSortLabel>
                                     </TableCell>
                                 ))}
                             </TableRow>
@@ -93,7 +92,7 @@ const Edit = (props) => {
                                 <TableCell colSpan={7} align="center">
                                     <Button onClick={onEdit}>Update</Button>
                                     <Button onClick={onDelete}>Delete All</Button>
-                                    <Link to="/dashboard">Cancel</Link>
+                                    <Link to="/dashboard" style={{ color: 'black' }}>Cancel</Link>
                                 </TableCell>
                             </TableRow>
                         </TableBody>

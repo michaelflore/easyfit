@@ -6,7 +6,6 @@ import ListItemText from "@material-ui/core/ListItemText";
 import {Drawer, Hidden, makeStyles, Typography} from "@material-ui/core";
 import firebase from "firebase/app";
 import 'firebase/firestore';
-import { useAuth } from "../contexts/AuthContext"
 
 const useStyles = makeStyles(theme => ({
     navPane: {
@@ -20,10 +19,8 @@ const useStyles = makeStyles(theme => ({
 const NavBar = () => {
     const [loaded, setLoaded] = useState(false);
     const [userIsAdmin, setUserIsAdmin] = useState(false);
-    const { currentUser } = useAuth();
     const styles = useStyles();
-    let uid = currentUser.uid;
-
+    let uid = firebase.auth().currentUser.uid;
     const db = firebase.firestore();
 
     const checkIsAdmin = async () => {

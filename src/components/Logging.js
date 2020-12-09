@@ -9,7 +9,7 @@ import { logWeight } from '../logic/logginglogic';
 const useStyles = makeStyles(theme => ({
     cardSpace: {
         marginBottom: '10px',
-        padding: '10px'
+        padding: '25px'
     }
 }));
 

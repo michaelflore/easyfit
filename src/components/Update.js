@@ -15,7 +15,8 @@ const useStyles = makeStyles(theme => ({
         marginTop: '15px'
     },
     card: {
-        marginTop: '68px'
+        marginTop: '70px',
+        padding: '15px'
     }
 }));
 
@@ -122,22 +123,22 @@ export default function Update() {
                     <form onSubmit={handleSubmit}>
                         <Grid container direction='column' justify='center' alignItems='center' spacing={3}>
                             <Grid item>
-                                <TextField id='email' inputRef={emailRef} label='New Email' variant='outlined' type='email'/>
+                                <TextField id='email' inputRef={emailRef} label='New Email' variant='outlined' type='email' defaultValue={currentUser.email}/>
                             </Grid>
                             <Grid item>
                                 <TextField id='password' inputRef={passwordRef} label='New Password' variant='outlined' type='password'/>
                             </Grid>
                             <Grid item>
-                                <TextField id='fname' label='First Name' variant='outlined'/>
+                                <TextField id='fname' label='First Name' variant='outlined' defaultValue={currentUser.fname}/>
                             </Grid>
                             <Grid item>
-                                <TextField id='lname' label='Last Name' variant='outlined'/>
+                                <TextField id='lname' label='Last Name' variant='outlined' defaultValue={currentUser.lname}/>
                             </Grid>
                             <Grid item>
-                                <TextField id='age' label='Age' variant='outlined'/>
+                                <TextField id='age' label='Age' variant='outlined' defaultValue={currentUser.age}/>
                             </Grid>
                             <Grid item>
-                                <TextField id='goal' label='Weight Goal (lbs)' variant='outlined'/>
+                                <TextField id='goal' label='Weight Goal (lbs)' variant='outlined' defaultValue={currentUser.goal}/>
                             </Grid>
                             <Grid item>
                                 <TextField id='activity' label={`Activity Level (${MIN_ALEVEL.toString()}-${MAX_ALEVEL.toString()})`} variant='outlined'/>
