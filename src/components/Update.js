@@ -1,7 +1,7 @@
 import React, {Fragment, useRef, useState} from "react"
 import { useAuth } from "../contexts/AuthContext"
 import { Link, Redirect, useHistory } from "react-router-dom"
-import {Card, Grid, makeStyles, TextField, Typography, Button, FormLabel, RadioGroup, Radio, FormControlLabel } from "@material-ui/core";
+import {Card, Grid, makeStyles, TextField, Typography, Button, FormLabel, RadioGroup, Radio, FormControlLabel, Select, MenuItem } from "@material-ui/core";
 import firebase from "firebase/app";
 import 'firebase/firestore';
 import Header from "./Header";
@@ -23,15 +23,15 @@ const useStyles = makeStyles(theme => ({
 export default function Update() {
     const emailRef = useRef();
     const passwordRef = useRef();
+    let activityLevels = [1, 2, 3, 4];
     //Firebase Authentication Info and Functions
     const { currentUser, updatePassword, updateEmail, deleteUser } = useAuth();
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
     const [updated, setUpdated] = useState(false);
     const [unit, setUnit] = useState(0);
+    const [alevel, setALevel] = useState(activityLevels[0]);
     const history = useHistory();
-    const MIN_ALEVEL = 1;
-    const MAX_ALEVEL = 4;
 
     var user = firebase.auth().currentUser;
     const db = firebase.firestore();
@@ -49,16 +49,23 @@ export default function Update() {
     }
 
     function handleSubmit(e) {
+        // prevent page from changing automatically on submit
         e.preventDefault();
+
+        // fetch all values from input form
         const fname = document.querySelector("#fname").value;
         const lname = document.querySelector("#lname").value;
         const age = document.querySelector("#age").value;
         const goal = document.querySelector("#goal").value;
-        const activityLevel = document.querySelector("#activity").value;
+
+        // array that holds all promises to be executed
         const promises = [];
+
+        // mounting variables
         setLoading(true);
         setError("");
 
+        // update email and password
         if (emailRef.current.value !== currentUser.email) {
             promises.push(updateEmail(emailRef.current.value))
         }
@@ -66,6 +73,7 @@ export default function Update() {
             promises.push(updatePassword(passwordRef.current.value))
         }
 
+        // validate and update all user info
         if(fname && fname !== ''){
           db.collection("users").doc(id).update({
             fname:fname
@@ -90,16 +98,12 @@ export default function Update() {
             });
           }
 
-        if(activityLevel && (Number.parseInt(activityLevel) < MIN_ALEVEL || Number.parseInt(activityLevel) > MAX_ALEVEL)) {
-            db.collection("users").doc(id).update({
-                activityLevel: Number.parseInt(activityLevel)
-              });
-        }
-
         db.collection("users").doc(id).update({
-            gender: unit === 0 ? 'Male' : 'Female'
+            gender: unit === 0 ? 'Male' : 'Female',
+            activityLevel: alevel
           });
-
+        
+        // resolve all promises
         Promise.all(promises)
             .then(() => {
                 history.push("/")
@@ -141,7 +145,11 @@ export default function Update() {
                                 <TextField id='goal' label='Weight Goal (lbs)' variant='outlined' defaultValue={currentUser.goal}/>
                             </Grid>
                             <Grid item>
-                                <TextField id='activity' label={`Activity Level (${MIN_ALEVEL.toString()}-${MAX_ALEVEL.toString()})`} variant='outlined'/>
+                                <Select onChange={e => setALevel(Number.parseInt(e.target.value))} value={alevel}>
+                                    {activityLevels.map(level => {
+                                        return <MenuItem value={level} key={level}>{level}</MenuItem>
+                                    })}
+                                </Select>
                             </Grid>
                             <Grid item>
                                 <FormLabel>Select Gender</FormLabel>
