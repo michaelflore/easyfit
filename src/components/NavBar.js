@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
@@ -31,7 +31,8 @@ const NavBar = () => {
                 setLoaded(true);
             } catch (e) {
                 console.log(e);
-                return <Typography>Error with loading account data. Please refresh the page.</Typography>
+                alert('Error while refreshing page');
+                return <Redirect to='/'/>;
             }
         }
     };
@@ -46,7 +47,7 @@ const NavBar = () => {
                 paper: styles.drawerPaper,
             }}>
                     <List>
-                        {/*this tab is repeated bc the app bar cuts the tab tab off*/}
+                        {/*this tab is repeated bc the app bar cuts the top tab off*/}
                         <Link to="/">
                             <ListItem button className={styles.navPane}>
                                 <ListItemText primary={"Home"} />
