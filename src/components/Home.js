@@ -22,29 +22,6 @@ const Home = () => {
     const db = firebase.firestore();
     const styles = useStyles();
 
-    /*
-    * This function is where user info is acquired from the database. Some important notes are below.
-    * This function MUST BE INSIDE OF THE COMPONENT OR ELSE IT WILL NOT WORK
-    * This function MUST BE CALLED by useEffect, as functional components cannot be declared async
-    */
-   /*
-    const fetchUserInfo = async () => {
-        if(!isLoaded) {
-            try {
-                let query = await db.collection('users').doc(uid).get();
-                let u = query.data();
-                setUser([`${u.fname} ${u.lname}`, u.height, u.weight, u.age, u.goal]);
-                db.collection('users').doc(uid).update({
-                    loggedin: firebase.firestore.Timestamp.fromDate(new Date())
-                });
-                setIsLoaded(true);
-            } catch(err) {
-                console.log(err);
-            }
-        }
-    };
-    */
-
     // Call the asyncronous query ASAP and update user information.
     useEffect(() => {
         fetchUserInfo(db, uid, isLoaded, setIsLoaded, setUser);
