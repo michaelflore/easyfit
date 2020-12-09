@@ -17,6 +17,7 @@ import Progress from './components/Progress';
 import Dashboard from "./components/Dashboard";
 import Edit from "./components/Edit";
 import MacroDisplay from './components/MacroDisplay';
+import ExerciseInfo from './components/ExerciseInfo';
 
 // load in environment variables
 require('dotenv').config();
@@ -50,7 +51,7 @@ const App = () => {
                   <Route path="/dashboard" component={Dashboard} />
                   <PrivateRoute path="/edit-user" component={Edit} />
                   <PrivateRoute path="/macro" component={MacroDisplay}/>
-
+                  <PrivateRoute path="/exercise" component={ExerciseInfo}/>
                 </Switch>
               </Router>
             </Grid>
