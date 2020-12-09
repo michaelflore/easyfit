@@ -1,5 +1,5 @@
 import React, { useRef, Fragment, useState } from "react";
-import { Card, Button, Grid, Typography, TextField, makeStyles, FormLabel, RadioGroup, Radio, FormControlLabel } from "@material-ui/core";
+import { Card, Button, Grid, Typography, TextField, makeStyles, FormLabel, RadioGroup, Radio, FormControlLabel, Select, MenuItem } from "@material-ui/core";
 import { Link, Redirect } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import Header from './Header';
@@ -29,11 +29,11 @@ const SignUp = () => {
     const passwordRef = useRef();
     const { signup } = useAuth();
     const styles = useStyles();
-    const MIN_ALEVEL = 1;
-    const MAX_ALEVEL = 4;
+    let activityLevels = [1, 2, 3, 4];
 
     let [submitted, setSubmitted] = useState(false);
     let [unit, setUnit] = useState(0);
+    let [alevel, setALevel] = useState(activityLevels[0]);
 
     async function handleSubmit(e) {
         e.preventDefault();
@@ -46,12 +46,9 @@ const SignUp = () => {
             let weight = document.querySelector("#weight").value;
             let age = document.querySelector("#age").value;
             let goal = document.querySelector('#goal').value;
-            let activityLevel = document.querySelector('#activity').value; 
 
-            if(fname === '' || lname === '' || height === '' || weight === '' || age === '' || goal === '' || activityLevel === '') {
+            if(fname === '' || lname === '' || height === '' || weight === '' || age === '' || goal === '') {
                 alert('One or more fields have been left blank, please enter all values.');
-            } else if(Number.parseInt(activityLevel) < MIN_ALEVEL || Number.parseInt(activityLevel) > MAX_ALEVEL) {
-                alert(`Activity level must be in the range of ${MIN_ALEVEL.toString()}-${MAX_ALEVEL.toString()}`);
             } else {
                 //creating user with google authentication
                 await signup(emailRef.current.value, passwordRef.current.value);
@@ -68,7 +65,7 @@ const SignUp = () => {
                 isAdmin: false,
                 loggedin: firebase.firestore.Timestamp.fromDate(new Date()),
                 userid: user.uid,
-                activityLevel: Number.parseInt(activityLevel),
+                activityLevel: alevel,
                 gender: unit === 0 ? 'Male' : 'Female'
                 }).then(setSubmitted(true));
             }
@@ -113,7 +110,11 @@ const SignUp = () => {
                     <TextField id='goal' label='Weight Goal (lbs)' variant='outlined'/>
                 </Grid>
                 <Grid item>
-                    <TextField id='activity' label={`Activity Level (${MIN_ALEVEL.toString()}-${MAX_ALEVEL.toString()})`} variant='outlined'/>
+                    <Select onChange={e => setALevel(Number.parseInt(e.target.value))} value={alevel}>
+                        {activityLevels.map(level => {
+                            return <MenuItem value={level} key={level}>{level}</MenuItem>
+                        })}
+                    </Select>
                 </Grid>
                 <Grid item>
                     <FormLabel>Select Gender</FormLabel>
