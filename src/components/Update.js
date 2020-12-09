@@ -40,7 +40,7 @@ export default function Update() {
 
     function deleteAccount(e) {
         e.preventDefault();
-        if (window.confirm('Are you sure you wish to delete your account?')) {
+        if (window.confirm('Are you sure you want to delete your account?')) {
             db.collection("users").doc(id).delete().then(r => console.log(r));
             deleteUser();
             history.push("/");
@@ -122,7 +122,7 @@ export default function Update() {
                     <form onSubmit={handleSubmit}>
                         <Grid container direction='column' justify='center' alignItems='center' spacing={3}>
                             <Grid item>
-                                <TextField id='email' inputRef={emailRef} label='New Email' variant='outlined' type='email'/>
+                                <TextField id='email' inputRef={emailRef} label='New Email' variant='outlined' type='email' defaultValue={currentUser.email}/>
                             </Grid>
                             <Grid item>
                                 <TextField id='password' inputRef={passwordRef} label='New Password' variant='outlined' type='password'/>

@@ -9,7 +9,7 @@ import Button from "@material-ui/core/Button";
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
+// import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TableSortLabel from "@material-ui/core/TableSortLabel";
@@ -65,43 +65,41 @@ const Edit = (props) => {
         <Fragment>
             <Header title="Admin Dashboard"/>
             <NavBar/>
-                <Grid container direction="column" justify="center" alignItems="center">
-                    <Grid item md={9}>
-                    <TableContainer>
-                        <Table size="small">
-                            <TableHead>
-                                <TableRow>
-                                    {titles.map((title) => (
-                                        <TableCell align="center" key={title}>
-                                            <TableSortLabel>
-                                                {title}
-                                            </TableSortLabel>
-                                        </TableCell>
-                                    ))}
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                <TableRow>
-                                    <TableCell align="center"><input value={fname} onChange={e => {setFirstName(e.target.value);}}/></TableCell>
-                                    <TableCell align="center"><input value={lname} onChange={e => {setLastName(e.target.value);}}/></TableCell>
-                                    <TableCell align="center"><input value={height} onChange={e => {setHeight(e.target.value);}}/></TableCell>
-                                    <TableCell align="center"><input value={weight} onChange={e => {setWeight(e.target.value);}}/></TableCell>
-                                    <TableCell align="center"><input value={age} onChange={e => {setAge(e.target.value);}}/></TableCell>
-                                    <TableCell align="center"><input value={goal} onChange={e => {setGoal(e.target.value);}}/></TableCell>
-                                    <TableCell align='center'><input value={alevel} onChange={e => setALevel(Number.parseInt(e.target.value))}/></TableCell>
-                                </TableRow>
-                                <TableRow>
-                                    <TableCell colSpan={6} align="center">
-                                        <Button onClick={onEdit}>Update</Button>
-                                        <Button onClick={onDelete}>Delete</Button>
-                                        <Link to="/dashboard" style={{ color: '#000'}}>Cancel</Link>
+            <Grid container direction="column" justify="center" alignItems="center" style={{marginTop: '64px'}}>
+                <Grid item xs={9}>
+                    <Table size="small" style={{ backgroundColor: '#404040' }}>
+                        <TableHead>
+                            <TableRow>
+                                {titles.map((title) => (
+                                    <TableCell align="center" key={title}>
+                                        <TableSortLabel>
+                                            {title}
+                                        </TableSortLabel>
                                     </TableCell>
-                                </TableRow>
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-                    </Grid>
+                                ))}
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            <TableRow>
+                                <TableCell align="center"><input value={fname} onChange={e => {setFirstName(e.target.value);}}/></TableCell>
+                                <TableCell align="center"><input value={lname} onChange={e => {setLastName(e.target.value);}}/></TableCell>
+                                <TableCell align="center"><input value={height} onChange={e => {setHeight(e.target.value);}}/></TableCell>
+                                <TableCell align="center"><input value={weight} onChange={e => {setWeight(e.target.value);}}/></TableCell>
+                                <TableCell align="center"><input value={age} onChange={e => {setAge(e.target.value);}}/></TableCell>
+                                <TableCell align="center"><input value={goal} onChange={e => {setGoal(e.target.value);}}/></TableCell>
+                                <TableCell align='center'><input value={alevel} onChange={e => setALevel(Number.parseInt(e.target.value))}/></TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell colSpan={7} align="center">
+                                    <Button onClick={onEdit}>Update</Button>
+                                    <Button onClick={onDelete}>Delete All</Button>
+                                    <Link to="/dashboard">Cancel</Link>
+                                </TableCell>
+                            </TableRow>
+                        </TableBody>
+                    </Table>
                 </Grid>
+            </Grid>
         </Fragment>
     );
 };

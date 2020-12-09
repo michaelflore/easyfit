@@ -82,6 +82,11 @@ const NavBar = () => {
                                 <ListItemText primary={"Progress Tracking"} />
                             </ListItem>
                         </Link>
+                        <Link to='/macro'>
+                            <ListItem button className={styles.navPane}>
+                                <ListItemText primary={"Macro Display"}/>
+                            </ListItem>
+                        </Link>
                     </List>
             </Drawer>
 
