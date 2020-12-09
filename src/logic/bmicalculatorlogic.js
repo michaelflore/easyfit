@@ -1,13 +1,3 @@
-/*
-Test bed
-
-var bmi = calculateBmiMetric(1.8, 80);
-console.log("your bmi is: " + bmi + " and you are in category: " + categorizeRezult(bmi));
-
-bmi = calculateBmiImperial(68, 160)
-console.log("your bmi is: " + bmi + " and you are in category: " + categorizeRezult(bmi));
-*/
-
 // height in meters , weight in kg
 const calculateBmiMetric = (heightMeters, weightKg) => {
     let bmi = weightKg / (heightMeters ** 2);
@@ -38,3 +28,21 @@ export {
     calculateBmiMetric,
     categorizeResult
 };
+
+//Testing the BMI calculator
+let bmi = calculateBmiMetric(1.8, 80);
+console.log("your bmi is: " + bmi + " and you are in category: " + categorizeResult(bmi)[0]);
+bmi = calculateBmiImperial(68, 160);
+console.log("your bmi is: " + bmi + " and you are in category: " + categorizeResult(bmi)[0]);
+bmi = calculateBmiMetric(3, 10);
+console.log("your bmi is: " + bmi + " and you are in category: " + categorizeResult(bmi)[0]);
+bmi = calculateBmiImperial(100, 40);
+console.log("your bmi is: " + bmi + " and you are in category: " + categorizeResult(bmi)[0]);
+bmi = calculateBmiMetric(5,650);
+console.log("your bmi is: " + bmi + " and you are in category: " + categorizeResult(bmi)[0]);
+bmi = calculateBmiImperial(55, 120);
+console.log("your bmi is: " + bmi + " and you are in category: " + categorizeResult(bmi)[0]);
+bmi = calculateBmiMetric(5,900);
+console.log("your bmi is: " + bmi + " and you are in category: " + categorizeResult(bmi)[0]);
+bmi = calculateBmiImperial(55, 150);
+console.log("your bmi is: " + bmi + " and you are in category: " + categorizeResult(bmi)[0]);
