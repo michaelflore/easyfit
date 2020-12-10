@@ -114,12 +114,13 @@ const MacroDisplay = () => {
                         <Card className={styles.cardSpace}>
                             <Typography>Your recommended macros are:</Typography>
                             {suggestion.macros.map((item) => {
-                            return <Typography key={item.name}>{`${item.name}: ${item.grams} grams (${item.oz} oz).`}</Typography>;
+                            return <Typography key={item.name}>{`${item.name}: ${item.grams} grams (${item.oz} oz)`}</Typography>;
                             })}
                         </Card>
                     </Grid>
                 );
             }
+            // Display the workout suggestion to the user.
             setWorkoutSuggestion(
                 <Grid item>
                     <Card className={`${styles.cardSpace} ${styles.workoutFormat}`}>
