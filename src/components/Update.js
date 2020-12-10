@@ -6,6 +6,7 @@ import firebase from "firebase/app";
 import 'firebase/firestore';
 import Header from "./Header";
 import NavBar from "./NavBar";
+import { validate } from '../logic/logginglogic';
 
 const useStyles = makeStyles(theme => ({
     updateText: {
@@ -27,7 +28,6 @@ export default function Update() {
     //Firebase Authentication Info and Functions
     const { currentUser, updatePassword, updateEmail, deleteUser } = useAuth();
     const [error, setError] = useState("");
-    const [loading, setLoading] = useState(false);
     const [updated, setUpdated] = useState(false);
     const [unit, setUnit] = useState(0);
     const [alevel, setALevel] = useState(activityLevels[0]);
@@ -61,47 +61,46 @@ export default function Update() {
         // array that holds all promises to be executed
         const promises = [];
 
-        // mounting variables
-        setLoading(true);
+        // mounting variable(s)
         setError("");
 
         // update email and password
         if (emailRef.current.value !== currentUser.email) {
-            promises.push(updateEmail(emailRef.current.value))
+            promises.push(updateEmail(emailRef.current.value));
         }
         if (passwordRef.current.value) {
-            promises.push(updatePassword(passwordRef.current.value))
+            promises.push(updatePassword(passwordRef.current.value));
         }
 
         // validate and update all user info
         if(fname && fname !== ''){
-          db.collection("users").doc(id).update({
+          promises.push(db.collection("users").doc(id).update({
             fname:fname
-          });
+          }));
         }
 
         if(lname && lname !== ''){
-          db.collection("users").doc(id).update({
+          promises.push(db.collection("users").doc(id).update({
             lname:lname
-          });
+          }));
         }
 
-        if(age && age !== ''){
-            db.collection("users").doc(id).update({
+        if(age && validate(parseInt(age), parseInt(age))){
+            promises.push(db.collection("users").doc(id).update({
               age:age
-            });
+            }));
           }
 
-        if(goal && goal !== ''){
-            db.collection("users").doc(id).update({
+        if(goal && validate(parseInt(goal), parseInt(goal))){
+            promises.push(db.collection("users").doc(id).update({
               goal:goal
-            });
+            }));
           }
 
-        db.collection("users").doc(id).update({
+        promises.push(db.collection("users").doc(id).update({
             gender: unit === 0 ? 'Male' : 'Female',
             activityLevel: alevel
-          });
+          }));
         
         // resolve all promises
         Promise.all(promises)
@@ -112,8 +111,7 @@ export default function Update() {
                 setError("Failed to update account")
             })
             .finally(() => {
-                setLoading(false)
-                alert('account updated!');
+                alert('Redirecting...');
                 setUpdated(true);
             })
     }

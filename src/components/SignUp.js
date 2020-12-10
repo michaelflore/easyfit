@@ -5,6 +5,7 @@ import { useAuth } from "../contexts/AuthContext";
 import Header from './Header';
 import firebase from "firebase/app";
 import 'firebase/firestore';
+import { validate } from '../logic/logginglogic';
 
 const useStyles = makeStyles(theme => ({
     updateText: {
@@ -22,7 +23,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const SignUp = () => {
-
     //conecting to the database
     const db = firebase.firestore();
     const emailRef = useRef();
@@ -34,22 +34,30 @@ const SignUp = () => {
     let [submitted, setSubmitted] = useState(false);
     let [unit, setUnit] = useState(0);
     let [alevel, setALevel] = useState(activityLevels[0]);
+    const [fname, setFname] = useState('');
+    const [lname, setLname] = useState('');
+    const [weight, setWeight] = useState('');
+    const [height, setHeight] = useState('');
+    const [age, setAge] = useState('');
+    const [goal, setGoal] = useState('');
+
+    const validateInput = () => {
+        if(fname === '' || lname === '' || height === '' || weight === '' || age === '' || goal === '') {
+            alert('One or more fields have been left blank, please enter all values.');
+            return false;
+        } else if(!(validate(height, weight) && validate(age, goal))) {
+            alert('Error: weight, height, age, and weight goal must all be valid decimal values');
+            return false;
+        } else {
+            return true;
+        }
+    };
 
     async function handleSubmit(e) {
         e.preventDefault();
 
         try {
-            //getting user info
-            let fname = document.querySelector("#fname").value;
-            let lname = document.querySelector("#lname").value;
-            let height = document.querySelector("#height").value;
-            let weight = document.querySelector("#weight").value;
-            let age = document.querySelector("#age").value;
-            let goal = document.querySelector('#goal').value;
-
-            if(fname === '' || lname === '' || height === '' || weight === '' || age === '' || goal === '') {
-                alert('One or more fields have been left blank, please enter all values.');
-            } else {
+            if(validateInput()) {
                 //creating user with google authentication
                 await signup(emailRef.current.value, passwordRef.current.value);
                 //getting current user
@@ -92,22 +100,22 @@ const SignUp = () => {
                     <TextField id='password' inputRef={passwordRef} label='Password' variant='outlined' type='password'/>
                 </Grid>
                 <Grid item>
-                    <TextField id='fname' label='First Name' variant='outlined'/>
+                    <TextField id='fname' label='First Name' variant='outlined' onInput={e => setFname(e.target.value)}/>
                 </Grid>
                 <Grid item>
-                    <TextField id='lname' label='Last Name' variant='outlined'/>
+                    <TextField id='lname' label='Last Name' variant='outlined' onInput={e => setLname(e.target.value)}/>
                 </Grid>
                 <Grid item>
-                    <TextField id='height' label='Height (in)' variant='outlined'/>
+                    <TextField id='height' label='Height (in)' variant='outlined' onInput={e => setHeight(parseFloat(e.target.value))}/>
                 </Grid>
                 <Grid item>
-                    <TextField id='weight' label='Weight (lbs)' variant='outlined'/>
+                    <TextField id='weight' label='Weight (lbs)' variant='outlined' onInput={e => setWeight(parseFloat(e.target.value))}/>
                 </Grid>
                 <Grid item>
-                    <TextField id='age' label='Age' variant='outlined'/>
+                    <TextField id='age' label='Age' variant='outlined' onInput={e => setAge(parseInt(e.target.value))}/>
                 </Grid>
                 <Grid item>
-                    <TextField id='goal' label='Weight Goal (lbs)' variant='outlined'/>
+                    <TextField id='goal' label='Weight Goal (lbs)' variant='outlined' onInput={e => setGoal(parseFloat(e.target.value))}/>
                 </Grid>
                 <Grid item>
                     <Select onChange={e => setALevel(Number.parseInt(e.target.value))} value={alevel}>

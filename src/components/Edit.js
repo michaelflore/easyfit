@@ -14,6 +14,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TableSortLabel from "@material-ui/core/TableSortLabel";
 import {Link, useHistory} from "react-router-dom";
+import { validate } from '../logic/logginglogic';
 
 const Edit = (props) => {
 
@@ -36,13 +37,14 @@ const Edit = (props) => {
 
     //Update
     const onEdit = () => {
+        
         db.collection('users').doc(props.location.item.id).update({
-            fname: fname,
-            lname: lname,
-            height: height,
-            weight: weight,
-            age: age,
-            goal: goal,
+            fname: fname !== '' ? fname : props.location.item.fname,
+            lname: lname !== '' ? lname : props.location.item.lname,
+            height: validate(height, height) ? height : props.location.item.height,
+            weight: validate(weight, weight) ? weight : props.location.item.weight,
+            age: validate(age, age) ? age : props.location.item.age,
+            goal: validate(goal, goal) ? goal : props.location.item.goal,
             activityLevel: alevel
         });
         history.push("/dashboard");
