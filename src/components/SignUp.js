@@ -1,6 +1,6 @@
-import React, { useRef, Fragment, useState } from "react";
+import React, {useRef, Fragment, useState, useEffect} from "react";
 import { Card, Button, Grid, Typography, TextField, makeStyles, FormLabel, RadioGroup, Radio, FormControlLabel, Select, MenuItem } from "@material-ui/core";
-import { Link, Redirect } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import Header from './Header';
 import firebase from "firebase/app";
@@ -23,15 +23,17 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const SignUp = () => {
-    //conecting to the database
+    //connecting to the database
     const db = firebase.firestore();
     const emailRef = useRef();
     const passwordRef = useRef();
+
     const { signup } = useAuth();
+    const history = useHistory();
     const styles = useStyles();
     let activityLevels = [1, 2, 3, 4];
 
-    let [submitted, setSubmitted] = useState(false);
+    let [loading, setLoading] = useState(false);
     let [unit, setUnit] = useState(0);
     let [alevel, setALevel] = useState(activityLevels[0]);
     const [fname, setFname] = useState('');
@@ -57,34 +59,38 @@ const SignUp = () => {
         e.preventDefault();
 
         try {
+            setLoading(true);
             if(validateInput()) {
                 //creating user with google authentication
                 await signup(emailRef.current.value, passwordRef.current.value);
-                //getting current user
                 let user = firebase.auth().currentUser;
                 //inserting user data into data base
                 db.collection("users").doc(user.uid).set({
-                fname: fname,
-                lname: lname,
-                height: height,
-                weight: weight,
-                age: age,
-                goal: goal,
-                isAdmin: false,
-                loggedin: firebase.firestore.Timestamp.fromDate(new Date()),
-                userid: user.uid,
-                activityLevel: alevel,
-                gender: unit === 0 ? 'Male' : 'Female'
-                }).then(setSubmitted(true));
+                    fname: fname,
+                    lname: lname,
+                    height: height,
+                    weight: weight,
+                    age: age,
+                    goal: goal,
+                    isAdmin: false,
+                    loggedin: firebase.firestore.Timestamp.fromDate(new Date()),
+                    userid: user.uid,
+                    activityLevel: alevel,
+                    gender: unit === 0 ? 'Male' : 'Female'
+                });
             }
+            history.push("/");
         } catch(e) {
             console.log(e);
             alert('Failed, make sure password is strong.');
         }
     }
 
+    useEffect(() => {
+        setLoading(false);
+    }, []);
+
     return (
-        submitted ? <Redirect to='/login'/> :
         <Fragment>
         <Header title='User Signup'/>
         <Card className={styles.card}>

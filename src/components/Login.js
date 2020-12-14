@@ -1,9 +1,8 @@
-import React, { useRef, Fragment } from "react";
+import React, {useRef, Fragment, useState, useEffect} from "react";
 import { Card, Button, Typography, TextField, Grid, makeStyles } from "@material-ui/core";
-import { Link, Redirect, useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import Header from './Header';
-import firebase from 'firebase/app';
 
 const useStyles = makeStyles(theme => ({
     updateText: {
@@ -23,29 +22,28 @@ const Login = () => {
     const emailRef = useRef();
     const passwordRef = useRef();
     const { login } = useAuth();
+
+    const [loading, setLoading] = useState(false);
     const history = useHistory();
     const styles = useStyles();
 
     async function handleSubmit(e) {
         e.preventDefault();
         try {
+            setLoading(true);
             await login(emailRef.current.value, passwordRef.current.value);
-            let uid = firebase.auth().currentUser.uid;
-            const db = firebase.firestore();
-            //inserts timestamp every time a users logs in into the DB
-
-            db.collection("users").doc(uid).update({
-                loggedin: firebase.firestore.Timestamp.fromDate(new Date())
-            });
-        } catch {
+            history.push("/");
+        } catch(e) {
+            console.log(e);
             alert('Failed to login');
         }
     }
 
-    const loggedIn = firebase.auth().currentUser;
+    useEffect(() => {
+        setLoading(false);
+    }, []);
 
     return (
-        loggedIn ? <Redirect to='/'/> :
         <Fragment>
             <Header title='User Login'/>
             <Card className={styles.card}>

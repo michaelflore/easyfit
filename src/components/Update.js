@@ -1,8 +1,7 @@
-import React, {Fragment, useRef, useState} from "react"
+import React, {Fragment, useEffect, useRef, useState} from "react"
 import { useAuth } from "../contexts/AuthContext"
-import { Link, Redirect, useHistory } from "react-router-dom"
+import { Link, useHistory } from "react-router-dom"
 import {Card, Grid, makeStyles, TextField, Typography, Button, FormLabel, RadioGroup, Radio, FormControlLabel, Select, MenuItem } from "@material-ui/core";
-import firebase from "firebase/app";
 import 'firebase/firestore';
 import Header from "./Header";
 import NavBar from "./NavBar";
@@ -24,27 +23,33 @@ const useStyles = makeStyles(theme => ({
 export default function Update() {
     const emailRef = useRef();
     const passwordRef = useRef();
+
+    // fetch all values from input form
+    const fnameRef = useRef();
+    const lnameRef = useRef();
+    const ageRef = useRef();
+    const goalRef = useRef();
+
     let activityLevels = [1, 2, 3, 4];
     //Firebase Authentication Info and Functions
-    const { currentUser, updatePassword, updateEmail, deleteUser } = useAuth();
+    const { currentUser, updatePassword, updateEmail, updateFirstName, updateLastName,
+        updateAge, updateGoal, updateLevel, deleteUser, deleteUserCol } = useAuth();
+
     const [error, setError] = useState("");
-    const [updated, setUpdated] = useState(false);
+    const [loading, setLoading] = useState(false);
+
     const [unit, setUnit] = useState(0);
     const [alevel, setALevel] = useState(activityLevels[0]);
     const history = useHistory();
-
-    var user = firebase.auth().currentUser;
-    const db = firebase.firestore();
-    var id = user.uid;
 
     const styles = useStyles();
 
     function deleteAccount(e) {
         e.preventDefault();
         if (window.confirm('Are you sure you wish to delete your account?')) {
-            db.collection("users").doc(id).delete().then(r => console.log(r));
+            deleteUserCol();
             deleteUser();
-            history.push("/");
+            history.push("/login");
         }
     }
 
@@ -52,15 +57,10 @@ export default function Update() {
         // prevent page from changing automatically on submit
         e.preventDefault();
 
-        // fetch all values from input form
-        const fname = document.querySelector("#fname").value;
-        const lname = document.querySelector("#lname").value;
-        const age = document.querySelector("#age").value;
-        const goal = document.querySelector("#goal").value;
-
         // array that holds all promises to be executed
         const promises = [];
 
+        setLoading(true);
         // mounting variable(s)
         setError("");
 
@@ -71,36 +71,24 @@ export default function Update() {
         if (passwordRef.current.value) {
             promises.push(updatePassword(passwordRef.current.value));
         }
-
         // validate and update all user info
-        if(fname && fname !== ''){
-          promises.push(db.collection("users").doc(id).update({
-            fname:fname
-          }));
+        if(fnameRef.current.value && fnameRef.current.value !== ''){
+          promises.push(updateFirstName(fnameRef.current.value));
         }
 
-        if(lname && lname !== ''){
-          promises.push(db.collection("users").doc(id).update({
-            lname:lname
-          }));
+        if(lnameRef.current.value && lnameRef.current.value !== ''){
+          promises.push(updateLastName(lnameRef.current.value));
         }
 
-        if(age && validate(parseInt(age), parseInt(age))){
-            promises.push(db.collection("users").doc(id).update({
-              age:age
-            }));
-          }
+        if(ageRef.current.value && validate(parseInt(ageRef.current.value), parseInt(ageRef.current.value)) ){
+            promises.push(updateAge(ageRef.current.value));
+        }
 
-        if(goal && validate(parseInt(goal), parseInt(goal))){
-            promises.push(db.collection("users").doc(id).update({
-              goal:goal
-            }));
-          }
+        if(goalRef.current.value && validate(parseInt(goalRef.current.value), parseInt(goalRef.current.value))){
+            promises.push(updateGoal(goalRef.current.value));
+        }
 
-        promises.push(db.collection("users").doc(id).update({
-            gender: unit === 0 ? 'Male' : 'Female',
-            activityLevel: alevel
-          }));
+        promises.push(updateLevel(unit, alevel));
         
         // resolve all promises
         Promise.all(promises)
@@ -112,12 +100,15 @@ export default function Update() {
             })
             .finally(() => {
                 alert('Redirecting...');
-                setUpdated(true);
+                // setLoading(false);
             })
     }
+
+    useEffect(() => {
+        setLoading(false);
+    }, []);
     
     return (
-        updated ? <Redirect to='/'/> :
         <Fragment>
             <Header title='Update Profile'/>
             <NavBar/>
@@ -131,16 +122,16 @@ export default function Update() {
                                 <TextField id='password' inputRef={passwordRef} label='New Password' variant='outlined' type='password'/>
                             </Grid>
                             <Grid item>
-                                <TextField id='fname' label='First Name' variant='outlined' defaultValue={currentUser.fname}/>
+                                <TextField id='fname' inputRef={fnameRef} label='First Name' variant='outlined' defaultValue={currentUser.lname} />
                             </Grid>
                             <Grid item>
-                                <TextField id='lname' label='Last Name' variant='outlined' defaultValue={currentUser.lname}/>
+                                <TextField id='lname' inputRef={lnameRef} label='Last Name' variant='outlined' defaultValue={currentUser.lname}/>
                             </Grid>
                             <Grid item>
-                                <TextField id='age' label='Age' variant='outlined' defaultValue={currentUser.age}/>
+                                <TextField id='age' inputRef={ageRef} label='Age' variant='outlined' defaultValue={currentUser.age}/>
                             </Grid>
                             <Grid item>
-                                <TextField id='goal' label='Weight Goal (lbs)' variant='outlined' defaultValue={currentUser.goal}/>
+                                <TextField id='goal' inputRef={goalRef} label='Weight Goal (lbs)' variant='outlined' defaultValue={currentUser.goal}/>
                             </Grid>
                             <Grid item>
                                 <Select onChange={e => setALevel(Number.parseInt(e.target.value))} value={alevel}>
