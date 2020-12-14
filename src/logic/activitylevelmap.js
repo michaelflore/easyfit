@@ -1,3 +1,4 @@
+// Hash map for an activity level to its corresponding label
 const levelLabel = new Map();
 levelLabel.set(1, 'Sedentary');
 levelLabel.set(2, 'Slightly Active');

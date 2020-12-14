@@ -1,10 +1,11 @@
 import React, { useRef, Fragment } from "react";
 import { Card, Button, Typography, TextField, Grid, makeStyles } from "@material-ui/core";
-import { Link, Redirect, useHistory } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import Header from './Header';
 import firebase from 'firebase/app';
 
+// css styling for the page
 const useStyles = makeStyles(theme => ({
     updateText: {
         backgroundColor: 'lightgray',
@@ -20,23 +21,20 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Login = () => {
+    // references for the user form
     const emailRef = useRef();
     const passwordRef = useRef();
+    // login functionality
     const { login } = useAuth();
-    const history = useHistory();
+    // load in styles
     const styles = useStyles();
 
     async function handleSubmit(e) {
+        // prevent form from navigating away in case of failure of input validation
         e.preventDefault();
         try {
+            // login with current input fields
             await login(emailRef.current.value, passwordRef.current.value);
-            let uid = firebase.auth().currentUser.uid;
-            const db = firebase.firestore();
-            //inserts timestamp every time a users logs in into the DB
-
-            db.collection("users").doc(uid).update({
-                loggedin: firebase.firestore.Timestamp.fromDate(new Date())
-            });
         } catch {
             alert('Failed to login');
         }

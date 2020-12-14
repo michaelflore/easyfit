@@ -6,6 +6,7 @@ import {useAuth} from "../contexts/AuthContext";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 
+// styling for this component
 const useStyles = makeStyles(theme => ({
     offset: theme.mixins.toolbar,
     appBar: {
@@ -22,22 +23,26 @@ const Header = (props) => {
 
     // acquires title for the current feature from the jsx props
     const barTitle = props.title;
+    // load in styling
     const styles = useStyles();
-
+    // error handling message
     const [error, setError] = useState("");
+    // get current user and logout function
     const { currentUser, logout } = useAuth();
+    // browser history routing
     const history = useHistory();
-
+    // anchor component
     const [anchorEl, setAnchorEl] = useState(null);
-
+    
+    // handle popup menu
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
-
     const handleClose = () => {
         setAnchorEl(null);
     };
 
+    // handle click of logout button
     async function handleLogout() {
         try {
             await logout();

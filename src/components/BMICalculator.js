@@ -56,8 +56,11 @@ const BMICalculator = () => {
     };
 
     const fetchUserALevel = async () => {
+        // fetch current user data
         let q = await db.collection('users').doc(uid).get();
+        // set the activity level of the log to the user's current activity level
         setAlevel(q.data().activityLevel);
+        // finish loading
         setLoaded(true);
     };
 

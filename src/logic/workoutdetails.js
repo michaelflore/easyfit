@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
-import { Typography, Grid } from '@material-ui/core';
+import { Typography } from '@material-ui/core';
 
+// I had to manually hard code the UI for workout advice. That's all this is. 
 const workoutDetails = {
     a: [
         (
@@ -142,6 +143,7 @@ const workoutDetails = {
     ]
 };
 
+// prevent alterations to this object from external sources
 Object.freeze(workoutDetails);
 
 export default workoutDetails;

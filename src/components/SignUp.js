@@ -7,6 +7,7 @@ import firebase from "firebase/app";
 import 'firebase/firestore';
 import { validate } from '../logic/logginglogic';
 
+// css styling for this page
 const useStyles = makeStyles(theme => ({
     updateText: {
         backgroundColor: 'lightgray',
@@ -25,12 +26,17 @@ const useStyles = makeStyles(theme => ({
 const SignUp = () => {
     //conecting to the database
     const db = firebase.firestore();
+    // input form references for email and password
     const emailRef = useRef();
     const passwordRef = useRef();
+    // signup function
     const { signup } = useAuth();
+    // load in styles
     const styles = useStyles();
+    // array of activity levels
     let activityLevels = [1, 2, 3, 4];
 
+    // initialize state of all form inputs
     let [submitted, setSubmitted] = useState(false);
     let [unit, setUnit] = useState(0);
     let [alevel, setALevel] = useState(activityLevels[0]);
@@ -41,10 +47,13 @@ const SignUp = () => {
     const [age, setAge] = useState('');
     const [goal, setGoal] = useState('');
 
+    // validate our input before submission
     const validateInput = () => {
+        // check if fields are empty
         if(fname === '' || lname === '' || height === '' || weight === '' || age === '' || goal === '') {
             alert('One or more fields have been left blank, please enter all values.');
             return false;
+        // check if numeric fields are valid
         } else if(!(validate(height, weight) && validate(age, goal))) {
             alert('Error: weight, height, age, and weight goal must all be valid decimal values');
             return false;
@@ -90,6 +99,7 @@ const SignUp = () => {
         <Card className={styles.card}>
             <form onSubmit={handleSubmit}>
             <Grid container direction='column' justify='center' alignItems='center' spacing={3}>
+                {/*Input fields*/}
                 <Grid item>
                     <Typography variant='h3'>Create an Account</Typography>
                 </Grid>
@@ -117,6 +127,7 @@ const SignUp = () => {
                 <Grid item>
                     <TextField id='goal' label='Weight Goal (lbs)' variant='outlined' onInput={e => setGoal(parseFloat(e.target.value))}/>
                 </Grid>
+                {/*Dropdown menu for activity levels*/}
                 <Grid item>
                     <Select onChange={e => setALevel(Number.parseInt(e.target.value))} value={alevel}>
                         {activityLevels.map(level => {
@@ -124,6 +135,7 @@ const SignUp = () => {
                         })}
                     </Select>
                 </Grid>
+                {/*Radio button group for gender*/}
                 <Grid item>
                     <FormLabel>Select Gender</FormLabel>
                     <RadioGroup name="units" aria-label="Select Units" value={unit} onChange={e => setUnit(Number(e.target.value))}>

@@ -5,6 +5,7 @@ import App from './App';
 import theme from './components/AppTheme';
 import * as serviceWorker from './serviceWorker';
 
+// render our app with our material theme
 ReactDOM.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>

@@ -48,10 +48,11 @@ const Progress = (props) => {
             <NavBar/>
                 <Grid container direction="column" justify="center" alignItems="center" spacing={3}>
                     {logs.map((log, i) => {
+                        // get timestamp of log
                         let timestamp = log.date.toDate();
-
+                        // get the weight change symbol and the color scheme for the current log
                         let { symbol, colorTheme } = logSettings(i, logs, log, styles);
-
+                        // Return a card component containing all of the data of the log
                         return <Card className={styles.cardSpace} key={timestamp}>
                                     <Grid container direction="row" justify="center" alignItems="center" spacing={3}>
                                         <Grid item>

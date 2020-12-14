@@ -8,6 +8,7 @@ import Header from "./Header";
 import NavBar from "./NavBar";
 import { validate } from '../logic/logginglogic';
 
+// custom css styling for this page
 const useStyles = makeStyles(theme => ({
     updateText: {
         backgroundColor: 'lightgray',
@@ -22,6 +23,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function Update() {
+    // input reference for email and password
     const emailRef = useRef();
     const passwordRef = useRef();
     let activityLevels = [1, 2, 3, 4];
@@ -32,18 +34,26 @@ export default function Update() {
     const [unit, setUnit] = useState(0);
     const [alevel, setALevel] = useState(activityLevels[0]);
     const history = useHistory();
-
+    
+    // current user
     var user = firebase.auth().currentUser;
+    // database connection
     const db = firebase.firestore();
+    // user id
     var id = user.uid;
-
+    
+    // load in styling
     const styles = useStyles();
 
+    // handle account deletion
     function deleteAccount(e) {
+        // prevent auto redirect
         e.preventDefault();
         if (window.confirm('Are you sure you wish to delete your account?')) {
+            // delete user account in database
             db.collection("users").doc(id).delete().then(r => console.log(r));
             deleteUser();
+            // redirect to home page
             history.push("/");
         }
     }
